@@ -53,5 +53,5 @@ export default {
     ext,
     warn,
     encode,
-    replaceAll
+    replaceAll,
 }

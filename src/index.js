@@ -1,11 +1,15 @@
 import util from './util/index'
 
+/**
+ * 监控
+ */
 export default class Monitor {
     constructor(options = {}) {
         if (typeof options != 'object') {
             return util.warn("options is object: " + options)
         }
         this.baseUrl = options.baseUrl
+        this._conf = {}
     }
 
     /**
@@ -46,12 +50,11 @@ export default class Monitor {
         }, e = {}), "object" == typeof t && (e = t = t.error || t)) : ("string" == typeof t && (t = {
             message: t
         }), "object" != typeof e && (e = {}));
-        let r = t.name || "CustomError",
-            n = util.encode(t.message),
-            i = util.encode(util.replaceAll(t.stack || "", "http.*\\d*:\\d*", "unknow"));
-
-        e = e || {};
-
         
+    }
+
+    getConfig(e) {
+        return {}
+        // return e ? this._conf[e] : util.ext({}, this._conf)
     }
 }
