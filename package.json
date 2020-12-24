@@ -18,17 +18,17 @@
     "url": "https://github.com/fonitor/wx-sdk/issues"
   },
   "homepage": "https://github.com/fonitor/wx-sdk#readme",
-  "dependencies": {
-    "@babel/core": "^7.11.1",
-    "@babel/polyfill": "^7.10.4",
-    "@babel/preset-env": "^7.11.0",
-    "@rollup/plugin-commonjs": "^15.0.0",
-    "@rollup/plugin-node-resolve": "^9.0.0",
-    "axios": "^0.19.2",
-    "babel-plugin-root-import": "^6.5.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "babel-plugin-root-import": "^6.6.0",
     "rimraf": "^3.0.2",
-    "rollup": "^2.25.0",
+    "rollup": "^2.35.1",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-serve": "^1.0.3"
+    "rollup-plugin-serve": "^1.1.0"
   }
 }
