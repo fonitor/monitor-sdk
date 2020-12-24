@@ -13,6 +13,13 @@ export default class Monitor {
     }
 
     /**
+     * 监控执行
+     */
+    init() {
+
+    }
+
+    /**
      * 监控注册
      * @param {*} e 
      */
