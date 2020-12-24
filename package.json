@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf lib && rollup -c -w",
+    "dev": "rollup -c -w"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,18 @@
   "bugs": {
     "url": "https://github.com/fonitor/wx-sdk/issues"
   },
-  "homepage": "https://github.com/fonitor/wx-sdk#readme"
+  "homepage": "https://github.com/fonitor/wx-sdk#readme",
+  "dependencies": {
+    "@babel/core": "^7.11.1",
+    "@babel/polyfill": "^7.10.4",
+    "@babel/preset-env": "^7.11.0",
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "axios": "^0.19.2",
+    "babel-plugin-root-import": "^6.5.0",
+    "rimraf": "^3.0.2",
+    "rollup": "^2.25.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-serve": "^1.0.3"
+  }
 }
