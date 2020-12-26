@@ -1,4 +1,7 @@
 import util from './util/index'
+import wxQueue from './queue/wx'
+
+const queue = null
 
 /**
  * 监控
@@ -18,6 +21,8 @@ export default class Monitor {
      */
     async setConfig(options) {
 
+        // 消息队列初始化
+        queue = new wxQueue(this._conf.baseUrl)
     }
 
     /**
@@ -27,6 +32,7 @@ export default class Monitor {
     async init(options) {
         if (!options || !options.pid) {
             util.warn("[cloudMonitor] not set pid");
+            return
         }
         let self = this
         try {
