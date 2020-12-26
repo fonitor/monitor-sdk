@@ -57,7 +57,16 @@ export default class Monitor {
         }, e = {}), "object" == typeof t && (e = t = t.error || t)) : ("string" == typeof t && (t = {
             message: t
         }), "object" != typeof e && (e = {}));
-        
+        let name = t.name || 'CustomError'
+        let useData = {
+            begin: Date.now(),
+            cate: name,
+            msg: t.message,
+            file: e.filename || "",
+            line: e.lineno || "",
+            col: e.colno || "",
+        }
+
     }
 
     getConfig(e) {
