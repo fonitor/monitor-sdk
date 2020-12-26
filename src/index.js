@@ -4,18 +4,71 @@ import util from './util/index'
  * 监控
  */
 export default class Monitor {
-    constructor(options = {}) {
-        if (typeof options != 'object') {
-            return util.warn("options is object: " + options)
+    constructor() {
+        this._conf = {
+            baseUrl: '',
+            autoReportApi: true,
+            autoReportPage: true
         }
-        this.baseUrl = options.baseUrl
-        this._conf = {}
+    }
+
+    /**
+     * 初始化参数
+     * @param {*} options 
+     */
+    async setConfig(options) {
+
     }
 
     /**
      * 监控执行
+     * @param {*} options 
      */
-    init() {
+    async init(options) {
+        if (!options || !options.pid) {
+            util.warn("[cloudMonitor] not set pid");
+        }
+        let self = this
+        try {
+            await this.setConfig()
+            this.addHook()
+        } catch (err) {
+            util.warn("[cloudMonitor] set config error");
+        }
+        // 是否需要落pv数据
+        if (this && this._conf && this._conf.autoReportPage) {
+            this.onReady(() => {
+                this._log('pv')
+            })
+        }
+        
+    }
+
+    /**
+     * @param {*} fun 
+     */
+    onReady(fun) {
+        if (typeof fun != 'function') {
+            util.warn('[cloudMonitor] not function')
+            return
+        }
+        this._conf.uid ? fun() : setTimeout(() => {
+            this.onReady(fun)
+        }, 100)
+    }
+
+    /**
+     * 执行log 存储
+     * @param {*} type 
+     */
+    _log(type) {
+
+    }
+
+    /**
+     * 代理
+     */
+    addHook() {
 
     }
 
