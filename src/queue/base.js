@@ -13,17 +13,6 @@ export default class Base {
     }
 
     /**
-     * 单例
-     * @return {?}
-     */
-    static getInstance() {
-        if (!Queue.instance) {
-            Queue.instance = new Queue()
-        }
-        return Queue.instance
-    }
-
-    /**
      * 同步队列 （传入对象必须要有logType，logError）
      * @param {*} log 队列日志
      */

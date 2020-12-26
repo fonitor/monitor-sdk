@@ -5,8 +5,9 @@ export default class BaseMonitor {
     constructor() {
         this._conf = {
             baseUrl: '',
-            autoReportApi: true,
-            autoReportPage: true
+            autoReportApi: true, // 是否上报api 
+            autoReportPage: true, // 是否上报页面信息
+            autoReportPagePerformance: true, // 是否上报页面性能
         }
     }
 
@@ -38,24 +39,26 @@ export default class BaseMonitor {
      * 监控执行
      * @param {*} options 
      */
-    async init(options) {
+    init(options) {
         if (!options || !options.pid) {
             util.warn("[cloudMonitor] not set pid");
             return
         }
         let self = this
         try {
-            await this.setConfig()
-            this.addHook()
+            this.setConfig({}, function() {
+                self.addHook()
+                // 是否需要落pv数据
+                if (self && self._conf && self._conf.autoReportPage) {
+                    self.onReady(() => {
+                        self._log('pv')
+                    })
+                }
+            })
         } catch (err) {
             util.warn("[cloudMonitor] set config error");
         }
-        // 是否需要落pv数据
-        if (this && this._conf && this._conf.autoReportPage) {
-            this.onReady(() => {
-                this._log('pv')
-            })
-        }
+
 
     }
 
@@ -105,13 +108,15 @@ export default class BaseMonitor {
 
     /**
      * 初始化参数
-     * @param {*} options 
+     * @param {*} options
+     * @param {*} fun 
      */
-    async setConfig(options) {
-        
+    setConfig(options, fun) {
+        this.initQueue()
+        fun()
     }
 
-    initQueue() {}
+    initQueue() { }
 
     /**
      * 执行log 存储
