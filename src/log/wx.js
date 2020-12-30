@@ -8,7 +8,7 @@ const baseConfig = {
     autoReportPagePerformance: true, // 是否上报页面性能
 }
 
-let addHook = function (options) {
+const addHook = function (options) {
     if (wx && options && options.autoReportApi) {
         wx._request = function (e) {
             let _e = JSON.path(JSON.stringify(e))
@@ -58,6 +58,72 @@ let addHook = function (options) {
     }
 }
 
+const performanceInit = function () {
+    if (wx.canIUse('getPerformance')) {
+        const performance = wx.getPerformance()
+        const observer = performance.createObserver((entryList) => {
+            let res = entryList.getEntries() || []
+            if (res.length == 0) {
+                return
+            }
+            res.forEach((item) => {
+                if (item) {
+                    let {
+                        entryType = '', duration = 0, name = '', path = '', moduleName = ''
+                    } = item
+                    if (entryType == 'render' && duration && path) {
+                        log.reportPerformance(trackRenderPerformance['render'], duration, path)
+                        log.reportPerformance(trackRenderPerformance['firstRender'], duration, path)
+                    } else if (entryType == 'navigation' && duration && path) {
+                        log.reportPerformance(trackRenderPerformance['navigation'], duration, path)
+                        if (name == 'appLaunch') {
+                            log.reportPerformance(trackRenderPerformance['appLaunch'], duration, path)
+                        } else if (name == 'route') {
+                            log.reportPerformance(trackRenderPerformance['route'], duration, path)
+                        }
+                    } else if (entryType == 'script' && duration && moduleName) {
+                        log.reportPerformance(trackRenderPerformance['evaluateScript'], duration, moduleName)
+                    }
+                }
+            })
+        })
+        observer.observe({
+            entryTypes: ['navigation', 'render', 'script']
+        })
+    } else {
+        return
+    }
+}
+
+const memoryWarning = () => {
+    if (wx.canIUse('onMemoryWarning')) {
+        try {
+            wx.onMemoryWarning((res) => {
+                let level = 1,
+                    route = '';
+
+                if (!!res && !!res.level) {
+                    level = res.level
+                }
+                let pages = getCurrentPages()
+                if (pages && pages.length > 0) {
+                    route = getCurrentPages()[getCurrentPages().length - 1].__route__
+                    log.reportPerformance(trackRenderPerformance['memoryWarning'], level, route)
+                }
+            })
+        } catch (error) {
+
+        }
+    }
+}
+
+let pagesPerformance = function (options) {
+    if (!options || !options.autoReportPagePerformance) {
+        return
+    }
+
+}
+
 const defaultInit = {
     App: {
         onLaunch() {
@@ -86,6 +152,9 @@ mpExtend.init = function (options) {
     let _options = Object.assign(baseConfig, options)
     this.options = _options
     addHook(_options)
+    pagesPerformance(_options)
+    // 初始化消息队列
+    mpExtend.queue = wxQueue.getInstance(_options.baseUrl)
 }
 
 mpExtend(defaultInit)
