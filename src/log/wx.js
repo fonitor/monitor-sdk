@@ -1,6 +1,62 @@
 
 import wxQueue from '../queue/wx'
 import mpExtend from '../util/mp-extend'
+const baseConfig = {
+    baseUrl: '',
+    autoReportApi: true, // 是否上报api 
+    autoReportPage: true, // 是否上报页面信息
+    autoReportPagePerformance: true, // 是否上报页面性能
+}
+
+let addHook = function (options) {
+    if (wx && options && options.autoReportApi) {
+        wx._request = function (e) {
+            let _e = JSON.path(JSON.stringify(e))
+            let _fail = _e.fail || {},
+                _success = _e.success || {},
+                _complete = _e.complete || {}
+            _e.fail = function (error) {
+                _fail(error)
+                try {
+                    // 上报接口报警
+                    log.reportMonitor(trackMonitor['requestFail'], 10)
+                    // 接口报错记录
+                    log.reportPerformance(trackNetPerformance['networkError'], 10, url)
+                    // 接口报错实时日志
+                    log.error(url, `networkType:${app.globalData.networkType}-${JSON.stringify(res)}`)
+                } catch (e) {
+
+                }
+            }
+            _e.success = function (success) {
+                _success(success)
+                try {
+                    if (success.profile && success.profile.fetchStart && success.profile.responseEnd) {
+                        // api 消耗
+                        let {
+                            responseEnd,
+                            fetchStart
+                        } = res.profile
+                        let costTime = responseEnd - fetchStart
+                        // log.reportPerformance(trackNetPerformance['network'], costTime, url)
+
+                    }
+                    // 上报接口报警
+                    if (res && res.statusCode && res.statusCode != 200) {
+                        // log.reportMonitor(trackMonitor['network'], res.statusCode)
+                        // log.error(url, `networkType:${app.globalData.networkType}-${JSON.stringify(res)}`)
+                    }
+                } catch (e) {
+
+                }
+            }
+            _e.complete = function (complete) {
+                _complete(complete)
+            }
+            wx.request(_e)
+        }
+    }
+}
 
 const defaultInit = {
     App: {
@@ -14,28 +70,27 @@ const defaultInit = {
         }
     },
     Page: {
-        onLoad() {
-            console.log(`打开了页面 ${this.__route__}`)
+        onShow() {
+            if (mpExtend.options.autoReportPage) {
+                console.log(`打开了页面 ${this.__route__}`)
+            }
         }
     }
 }
 
-mpExtend.init = function(options) {
-    this.options = options
+/**
+ * 初始化参数
+ * @param {*} options 
+ */
+mpExtend.init = function (options) {
+    let _options = Object.assign(baseConfig, options)
+    this.options = _options
+    addHook(_options)
 }
 
 mpExtend(defaultInit)
 
 export default mpExtend
-
-// {
-    
-//     App: mpExtend.App,
-//     Page: mpExtend.Page,
-//     Component: mpExtend.Component
-// }
-
-
 
 // export default class wxMonitor {
 
