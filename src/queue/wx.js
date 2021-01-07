@@ -17,6 +17,15 @@ export default class wxQueue extends Base {
         return wxQueue.instance
     }
 
+    /**
+     * 并发数减一
+     * @return {?}
+     */
+    reduceSynNumFun() {
+        wxQueue.instance.synNum--
+        return this
+    }
+
     _fetch(data = {}) {
         return new Promise(resolve => {
             wx.request({

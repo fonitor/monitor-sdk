@@ -88,8 +88,7 @@ export default class Base {
      * @return {?}
      */
     reduceSynNumFun() {
-        Queue.instance.synNum--
-        return this
+        
     }
 
     /**
