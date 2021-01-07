@@ -29,7 +29,7 @@ export default class wxQueue extends Base {
     _fetch(data = {}) {
         return new Promise(resolve => {
             wx.request({
-                url: `${this.baseUrl}`,
+                url: `${this.baseUrl}/api/save/log`,
                 data: data,
                 method: 'POST',
                 dataType: 'json',

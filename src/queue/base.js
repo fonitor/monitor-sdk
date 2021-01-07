@@ -99,10 +99,7 @@ export default class Base {
         // 深拷贝避免影响其他数据
         let log = JSON.parse(JSON.stringify(e))
         try {
-            let param = {
-                viewData: log
-            }
-            this._fetch(param).then(_ => {
+            this._fetch(log).then(_ => {
                 this.reduceSynNumFun()
             })
         } catch (err) {

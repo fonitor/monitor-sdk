@@ -56,7 +56,7 @@ function logSave(type, data) {
     switch (type) {
         case 'page_pv':
             let useData = Object.assign(logData, mpExtend.baseOptions)
-            console.log(useData)
+            useData.uploadType = 'page_pv'
             mpExtend.queue.pushToQueue(useData)
             break
         default:
@@ -184,7 +184,6 @@ const defaultInit = {
     App: {
         onError(e) {
             console.log('执行到错误')
-            console.log(e)
         }
     },
     Page: {
