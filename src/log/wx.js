@@ -31,7 +31,7 @@ function initBaseOptions(option) {
                 os: res.system, // 系统信息
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
-                browserVersion: res.version
+                browserVersion: res.version, // 小程序版本号
             }
         }
     });
