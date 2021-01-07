@@ -8,10 +8,22 @@ const baseConfig = {
     autoReportPagePerformance: true, // 是否上报页面性能
 }
 
+const type = 2 // 代表微信小程序
+const projectVersion = '1.0.0'
+
+function logSave(type, data) {
+    switch (type) {
+        case 'page_pv':
+            break
+        default:
+
+    }
+}
+
 const addHook = function (options) {
     if (wx && options && options.autoReportApi) {
-        wx._request = function (e) {
-            let _e = JSON.path(JSON.stringify(e))
+        wx._request = function () {
+            let _e = e
             let _fail = _e.fail || {},
                 _success = _e.success || {},
                 _complete = _e.complete || {}
@@ -124,6 +136,8 @@ let pagesPerformance = function (options) {
 
 }
 
+const referrerPage = ""
+
 const defaultInit = {
     App: {
         onLaunch() {
@@ -138,7 +152,11 @@ const defaultInit = {
     Page: {
         onShow() {
             if (mpExtend.options.autoReportPage) {
-                console.log(`打开了页面 ${this.__route__}`)
+                try {
+                    referrerPage = this.__route__
+                } catch (err) {
+
+                }
             }
         }
     }
@@ -153,6 +171,7 @@ mpExtend.init = function (options) {
     this.options = _options
     addHook(_options)
     pagesPerformance(_options)
+    mpExtend.
     // 初始化消息队列
     mpExtend.queue = wxQueue.getInstance(_options.baseUrl)
 }
