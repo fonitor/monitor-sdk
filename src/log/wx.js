@@ -24,6 +24,7 @@ function initBaseOptions(option) {
     wx.getSystemInfo({
         success: (res) => {
             mpExtend.baseOptions = {
+                app: option.app || "",
                 type, // 代表微信小程序
                 projectVersion, // 项目版本号
                 customerKey: util.generateUUID(), // 会话id
@@ -32,6 +33,7 @@ function initBaseOptions(option) {
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
                 browserVersion: res.version, // 小程序版本号
+                browserInfo: ''
             }
         }
     });
@@ -56,8 +58,15 @@ function logSave(type, data) {
     switch (type) {
         case 'page_pv':
             let useData = Object.assign(logData, mpExtend.baseOptions)
-            useData.uploadType = 'page_pv'
+            useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
+            break
+        case 'js_error':
+            useData.uploadType = type
+            mpExtend.queue.pushToQueue(useData)
+            break
+        case 'http_log':
+
             break
         default:
 
@@ -209,6 +218,12 @@ const defaultInit = {
  * @param {*} options 
  */
 mpExtend.init = function (options) {
+    if (!options || !options.app) {
+        util.warn('[cloudMonitor] not set app')
+    }
+    if (!options || !options.baseUrl) {
+        util.warn('[cloudMonitor] not set baseUrl')
+    }
     let _options = Object.assign(baseConfig, options)
     this.options = _options
     addHook(_options)
