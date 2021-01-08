@@ -74,7 +74,9 @@ function logSave(type, data) {
             mpExtend.queue.pushToQueue(useData)
             break
         case 'http_log':
-
+            useData = Object.assign(logData, mpExtend.baseOptions)
+            useData.uploadType = type
+            mpExtend.queue.pushToQueue(useData)
             break
         default:
 
@@ -83,48 +85,54 @@ function logSave(type, data) {
 
 const addHook = function (options) {
     if (wx && options && options.autoReportApi) {
-        wx._request = function () {
+        let startTime = new Date().getTime()
+        wx._request = function (e) {
             let _e = e
-            let _fail = _e.fail || {},
-                _success = _e.success || {},
-                _complete = _e.complete || {}
+            let _fail = _e.fail || "",
+                _success = _e.success || "",
+                _complete = _e.complete || ""
             _e.fail = function (error) {
-                _fail(error)
+                !!_fail && _fail(error)
                 try {
-                    // 上报接口报警
-                    log.reportMonitor(trackMonitor['requestFail'], 10)
-                    // 接口报错记录
-                    log.reportPerformance(trackNetPerformance['networkError'], 10, url)
-                    // 接口报错实时日志
-                    log.error(url, `networkType:${app.globalData.networkType}-${JSON.stringify(res)}`)
+                    let data = {
+                        httpUrl: e.url,
+                        httpUploadType: 2,
+                        responseText: JSON.stringify(error),
+                    }
+                    logSave('http_log', data)
                 } catch (e) {
-
+                    util.warn('[cloudMonitor] http error')
                 }
             }
             _e.success = function (success) {
-                _success(success)
+                !!_success && _success(success)
                 try {
-                    if (success.profile && success.profile.fetchStart && success.profile.responseEnd) {
-                        // api 消耗
-                        let {
-                            responseEnd,
-                            fetchStart
-                        } = res.profile
-                        let costTime = responseEnd - fetchStart
-                        // log.reportPerformance(trackNetPerformance['network'], costTime, url)
-
-                    }
                     // 上报接口报警
-                    if (res && res.statusCode && res.statusCode != 200) {
-                        // log.reportMonitor(trackMonitor['network'], res.statusCode)
-                        // log.error(url, `networkType:${app.globalData.networkType}-${JSON.stringify(res)}`)
+                    if (!!success && success.statusCode && success.statusCode != 200) {
+                        let data = {
+                            httpUrl: _e.url,
+                            httpUploadType: 2,
+                            responseText: JSON.stringify(success),
+                        }
+                        logSave('http_log', data)
+                    } else {
+                        let endTime = new Date().getTime()
+                        let consumeData = {
+                            loadTime: endTime - startTime,
+                            httpUrl: _e.url,
+                            httpUploadType: 1,
+                            responseText: JSON.stringify(success),
+                        }
+                        logSave('http_log', consumeData)
                     }
                 } catch (e) {
-
+                    console.log('测试')
+                    console.log(e)
+                    util.warn('[cloudMonitor] http error')
                 }
             }
             _e.complete = function (complete) {
-                _complete(complete)
+                !!_complete && _complete(complete)
             }
             wx.request(_e)
         }
