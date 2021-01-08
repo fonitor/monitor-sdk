@@ -33,11 +33,17 @@ function initBaseOptions(option) {
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
                 browserVersion: res.version, // 小程序版本号
-                browserInfo: ''
             }
         }
     });
     
+}
+
+/**
+ * 获取当前url
+ */
+function getPage() {
+    return getCurrentPages()[getCurrentPages().length - 1].__route__
 }
 
 
@@ -47,7 +53,8 @@ function initBaseOptions(option) {
  * @param {*} data 
  */
 function logSave(type, data) {
-    let logData = JSON.parse(JSON.stringify(data))
+    let useData,
+        logData = JSON.parse(JSON.stringify(data))
     if (!mpExtend.baseOptions) {
         initBaseOptions(mpExtend.options)
         setTimeout(() => {
@@ -57,11 +64,12 @@ function logSave(type, data) {
     }
     switch (type) {
         case 'page_pv':
-            let useData = Object.assign(logData, mpExtend.baseOptions)
+            useData = Object.assign(logData, mpExtend.baseOptions)
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
         case 'js_error':
+            useData = Object.assign(logData, mpExtend.baseOptions)
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
@@ -192,7 +200,16 @@ let pagesPerformance = function (options) {
 const defaultInit = {
     App: {
         onError(e) {
-            console.log('执行到错误')
+            try {
+                let data = {
+                    simpleUrl: getPage(),
+                    errorMessage: String(e)
+                }
+                logSave('js_error', data)
+            }catch(err) {
+                util.warn('[cloudMonitor] JavaScript error')
+            }
+           
         }
     },
     Page: {
