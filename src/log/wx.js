@@ -38,7 +38,6 @@ function initBaseOptions(option) {
                 type, // 代表微信小程序
                 projectVersion, // 项目版本号
                 customerKey: util.generateUUID(), // 会话id
-                pageKey: mpExtend.pageKey || "", // 用户标识
                 os: res.system, // 系统信息
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
@@ -75,16 +74,19 @@ function logSave(type, data) {
     switch (type) {
         case 'page_pv':
             useData = Object.assign(logData, mpExtend.baseOptions)
+            useData.pageKey = mpExtend.pageKey || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
         case 'js_error':
             useData = Object.assign(logData, mpExtend.baseOptions)
+            useData.pageKey = mpExtend.pageKey || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
         case 'http_log':
             useData = Object.assign(logData, mpExtend.baseOptions)
+            useData.pageKey = mpExtend.pageKey || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
