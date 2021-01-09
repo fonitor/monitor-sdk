@@ -10,10 +10,20 @@ const baseConfig = {
 }
 
 mpExtend.baseOptions = '' // 初始化上传参数
-mpExtend.referrerPage = ''
+mpExtend.referrerPage = '' // 上一个页面
+mpExtend.pageKey = '' // 用户标识
 
 const type = 2 // 代表微信小程序
 const projectVersion = '1.0.0' // 项目版本号
+
+/**
+ * 设置用户标识
+ * @param {*} key 
+ */
+mpExtend.setPageKey = function(key) {
+    mpExtend.pageKey = key
+}
+
 
 /**
  * 初始化上传参数
@@ -28,7 +38,7 @@ function initBaseOptions(option) {
                 type, // 代表微信小程序
                 projectVersion, // 项目版本号
                 customerKey: util.generateUUID(), // 会话id
-                pageKey: option.pageKey || "", // 用户标识
+                pageKey: mpExtend.pageKey || "", // 用户标识
                 os: res.system, // 系统信息
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
@@ -126,8 +136,6 @@ const addHook = function (options) {
                         logSave('http_log', consumeData)
                     }
                 } catch (e) {
-                    console.log('测试')
-                    console.log(e)
                     util.warn('[cloudMonitor] http error')
                 }
             }
