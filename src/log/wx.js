@@ -74,19 +74,19 @@ function logSave(type, data) {
     switch (type) {
         case 'page_pv':
             useData = Object.assign(logData, mpExtend.baseOptions)
-            useData.pageKey = mpExtend.pageKey || "", // 用户标识
+            useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
         case 'js_error':
             useData = Object.assign(logData, mpExtend.baseOptions)
-            useData.pageKey = mpExtend.pageKey || "", // 用户标识
+            useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
         case 'http_log':
             useData = Object.assign(logData, mpExtend.baseOptions)
-            useData.pageKey = mpExtend.pageKey || "", // 用户标识
+            useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
             mpExtend.queue.pushToQueue(useData)
             break
