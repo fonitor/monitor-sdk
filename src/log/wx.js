@@ -38,7 +38,7 @@ function initBaseOptions(option) {
                 type, // 代表微信小程序
                 projectVersion, // 项目版本号
                 customerKey: util.generateUUID(), // 会话id
-                os: res.system, // 系统信息
+                os: res.system.indexOf('iOS') === -1 ? 'Android' : 'IOS', // 系统信息
                 deviceName: res.model, // 手机型号
                 brand: res.brand, // 手机品牌
                 browserVersion: res.version, // 小程序版本号
