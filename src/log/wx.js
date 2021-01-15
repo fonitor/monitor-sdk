@@ -76,18 +76,21 @@ function logSave(type, data) {
             useData = Object.assign(logData, mpExtend.baseOptions)
             useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
+            useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
             mpExtend.queue.pushToQueue(useData)
             break
         case 'js_error':
             useData = Object.assign(logData, mpExtend.baseOptions)
             useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
+            useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
             mpExtend.queue.pushToQueue(useData)
             break
         case 'http_log':
             useData = Object.assign(logData, mpExtend.baseOptions)
             useData.userId = mpExtend.userId || "", // 用户标识
             useData.uploadType = type
+            useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
             mpExtend.queue.pushToQueue(useData)
             break
         default:
