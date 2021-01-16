@@ -110,9 +110,11 @@ const addHook = function (options) {
                 !!_fail && _fail(error)
                 try {
                     let data = {
+                        simpleUrl: getPage(),
                         httpUrl: e.url,
                         httpUploadType: 2,
                         responseText: JSON.stringify(error),
+                        httpStatus: '0'
                     }
                     logSave('http_log', data)
                 } catch (e) {
@@ -125,18 +127,22 @@ const addHook = function (options) {
                     // 上报接口报警
                     if (!!success && success.statusCode && success.statusCode != 200) {
                         let data = {
+                            simpleUrl: getPage(),
                             httpUrl: _e.url,
                             httpUploadType: 2,
                             responseText: JSON.stringify(success),
+                            httpStatus: success.statusCode
                         }
                         logSave('http_log', data)
                     } else {
                         let endTime = new Date().getTime()
                         let consumeData = {
+                            simpleUrl: getPage(),
                             loadTime: endTime - startTime,
                             httpUrl: _e.url,
                             httpUploadType: 1,
                             responseText: JSON.stringify(success),
+                            httpStatus: success.statusCode || 200
                         }
                         logSave('http_log', consumeData)
                     }
