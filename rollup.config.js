@@ -7,7 +7,7 @@ export default {
     input: './src/index.js',
     output: {
         file: './lib/index.js',
-        sourcemap: true
+        sourcemap: true // // es6->es5 开启源码调试
     },
     plugins: [
         serve({
