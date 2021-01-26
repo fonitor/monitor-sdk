@@ -1,4 +1,4 @@
-import { initMixin } from './init'
+import { initMixin } from './wxInit'
 
 let wxMonitor = {}
 
