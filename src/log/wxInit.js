@@ -66,7 +66,7 @@ export function initMixin(wxMonitor) {
                     if (hook === 'request') {
                         reqData = options$1.data;
                     }
-                    var successHandler = function (res) {
+                    let successHandler = function (res) {
                         try {
                             // 上报接口报警
                             if (!!res && res.statusCode && res.statusCode != 200) {
@@ -101,7 +101,7 @@ export function initMixin(wxMonitor) {
                             return options$1.success(res);
                         }
                     };
-                    var failHandler = function (err) {
+                    let failHandler = function (err) {
                         try {
                             let data = {
                                 simpleUrl: util.getPage(),
