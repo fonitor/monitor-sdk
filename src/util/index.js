@@ -103,6 +103,13 @@ function __assign() {
     return __assign.apply(this, arguments);
 };
 
+/**
+ * 获取当前url
+ */
+function getPage() {
+    return getCurrentPages()[getCurrentPages().length - 1].__route__
+}
+
 let warn = getCwarn
 
 export default {
@@ -112,5 +119,6 @@ export default {
     replaceAll,
     generateUUID,
     dateFormat,
+    getPage,
     __assign
 }
