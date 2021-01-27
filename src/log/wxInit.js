@@ -60,6 +60,7 @@ export function initMixin(wxMonitor) {
                         args[_i] = arguments[_i];
                     }
                     let options$1 = args[0];
+                    let url = options$1.url || ""
 
                     let reqData;
                     if (hook === 'request') {
@@ -76,7 +77,9 @@ export function initMixin(wxMonitor) {
                                     responseText: JSON.stringify(res),
                                     httpStatus: res.statusCode
                                 }
-                                vm.logSave('http_log', data)
+                                if (url && url.indexOf(vm.baseUrl) != -1) {
+                                    vm.logSave('http_log', data)
+                                }
                             } else {
                                 let endTime = new Date().getTime()
                                 let consumeData = {
@@ -87,7 +90,9 @@ export function initMixin(wxMonitor) {
                                     responseText: JSON.stringify(res),
                                     httpStatus: res.statusCode || 200
                                 }
-                                vm.logSave('http_log', consumeData)
+                                if (url && url.indexOf(vm.baseUrl) != -1) {
+                                    vm.logSave('http_log', consumeData)
+                                }
                             }
                         } catch (e) {
                             util.warn('[cloudMonitor] http error')
@@ -105,7 +110,9 @@ export function initMixin(wxMonitor) {
                                 responseText: JSON.stringify(err),
                                 httpStatus: '0'
                             }
-                            vm.logSave('http_log', data)
+                            if (url && url.indexOf(vm.baseUrl) != -1) {
+                                vm.logSave('http_log', data)
+                            }
                         } catch (e) {
                             util.warn('[cloudMonitor] http error')
                         }
