@@ -191,4 +191,31 @@ export function initMixin(wxMonitor) {
     wxMonitor.setUserId = function (userId) {
         this.userId = userId
     }
+    /**
+     * 包装js 错误信息
+     * @param {*} option 
+     */
+    wxMonitor.hookApp = function (option) {
+        let vm = this,
+            oldHookApp = {
+                onError: function (e) {
+                    var n = 1 === arguments.length ? [arguments[0]] : Array.apply(null, arguments),
+                        r = option.onError;
+                    try {
+                        let data = {
+                            simpleUrl: util.getPage(),
+                            errorMessage: String(e)
+                        }
+                        vm.logSave('js_error', data)
+                    } catch (err) {
+                        util.warn("[cloudMonitor] error in hookApp:onError", err)
+                    }
+                    if ("function" == typeof r) {
+                        return r.apply(this, n)
+                    }
+                }
+            }
+        return util.ext({}, option, oldHookApp)
+
+    }
 }
