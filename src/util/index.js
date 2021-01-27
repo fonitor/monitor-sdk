@@ -1,4 +1,29 @@
 /**
+ * 校验类型
+ * @param {*} type 
+ */
+function isType(type) {
+    return function (value) {
+        return nativeToString.call(value) === "[object " + type + "]";
+    };
+}
+
+// 校验枚举
+const variableTypeDetection = {
+    isNumber: isType('Number'),
+    isString: isType('String'),
+    isBoolean: isType('Boolean'),
+    isNull: isType('Null'),
+    isUndefined: isType('Undefined'),
+    isSymbol: isType('Symbol'),
+    isFunction: isType('Function'),
+    isObject: isType('Object'),
+    isArray: isType('Array'),
+    isProcess: isType('process'),
+    isWindow: isType('Window')
+};
+
+/**
  * 生成用户唯一标识码
  */
 function generateUUID() {
@@ -110,6 +135,42 @@ function getPage() {
     return getCurrentPages()[getCurrentPages().length - 1].__route__
 }
 
+/**
+ * url
+ * @param {*} url 
+ * @param {*} query 
+ */
+function setUrlQuery(url, query) {
+    var queryArr = [];
+    Object.keys(query).forEach(function (k) {
+        queryArr.push(k + "=" + query[k]);
+    });
+    if (url.indexOf('?') !== -1) {
+        url = url + "&" + queryArr.join('&');
+    }
+    else {
+        url = url + "?" + queryArr.join('&');
+    }
+    return url;
+}
+
+/**
+ * 
+ * @param {*} delta 
+ */
+function getNavigateBackTargetUrl(delta) {
+    if (!variableTypeDetection.isFunction(getCurrentPages)) {
+        return '';
+    }
+    var pages = getCurrentPages();
+    if (!pages.length) {
+        return 'App';
+    }
+    delta = delta || 1;
+    var toPage = pages[pages.length - delta];
+    return setUrlQuery(toPage.route, toPage.options);
+}
+
 let warn = getCwarn
 
 export default {
@@ -120,5 +181,6 @@ export default {
     generateUUID,
     dateFormat,
     getPage,
+    getNavigateBackTargetUrl,
     __assign
 }

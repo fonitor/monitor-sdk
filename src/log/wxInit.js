@@ -44,7 +44,33 @@ export function initMixin(wxMonitor) {
         const vm = this
         // 代理跳转
         let WxRouteEvents = config.WxRouteEvents
-
+        WxRouteEvents.forEach(method => {
+            let originMethod = wx[method];
+            Object.defineProperty(wx, method, {
+                writable: true,
+                enumerable: true,
+                configurable: true,
+                value: function (options) {
+                    var toUrl;
+                    if (method === WxRouteEvents.NavigateBack) {
+                        toUrl = util.getNavigateBackTargetUrl(options.delta);
+                    } else {
+                        toUrl = options.url;
+                    }
+                    try {
+                        let data = {
+                            simpleUrl: toUrl,
+                            referrer: vm.referrerPage || "",
+                        }
+                        vm.logSave('page_pv', data)
+                        vm.referrerPage = toUrl
+                    } catch (e) {
+                        util.warn('[cloudMonitor] url error')
+                    }
+                    return originMethod.call(this, options);
+                }
+            })
+        })
         // 代理请求
         let WxHookMethods = config.WxHookMethods
         WxHookMethods.forEach(hook => {
