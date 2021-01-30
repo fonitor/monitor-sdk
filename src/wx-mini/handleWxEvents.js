@@ -13,4 +13,10 @@ const HandleWxAppEvents = {
     }
 }
 
-export { HandleWxAppEvents }
+const HandleWxPageEvent = {
+    onLoad() {
+        
+    }
+}
+
+export { HandleWxAppEvents, HandleWxPageEvent }

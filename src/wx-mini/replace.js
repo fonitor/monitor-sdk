@@ -7,9 +7,10 @@ import { HandleWxAppEvents } from './handleWxEvents'
 /**
  * 添加函数
  * @param {*} handler 
+ * @param {*} handleType
  */
-export function addReplaceHandler(handler) {
-    subscribeEvent(handler)
+export function addReplaceHandler(handler, handleType) {
+    subscribeEvent(handler, handleType)
 }
 
 export function replaceApp(wxMonitor) {
@@ -25,13 +26,13 @@ export function replaceApp(wxMonitor) {
             addReplaceHandler({
                 callback: (data) => HandleWxAppEvents[method.replace('AppOn', 'on')](data),
                 type: method
-            })
+            }, 'app')
             replaceOld(
                 appOptions,
                 method.replace('AppOn', 'on'),
                 function (originMethod) {
                     return function (...args) {
-                        triggerHandlers.apply(null, [method, ...args])
+                        triggerHandlers.apply(null, [method, ...args, 'app'])
                         if (originMethod) {
                             originMethod.apply(this, args)
                         }
@@ -42,6 +43,10 @@ export function replaceApp(wxMonitor) {
         })
         return originApp(appOptions)
     }
+}
+
+export function replacePage(wxMonitor) {
+    
 }
 
 /**
@@ -167,3 +172,4 @@ export function replaceNetwork(wxMonitor) {
         })
     })
 }
+
