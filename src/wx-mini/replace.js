@@ -2,7 +2,7 @@ import * as config from '../config/wx'
 import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import { replaceOld } from '../util/help'
-import { HandleWxAppEvents } from './handleWxEvents'
+import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 
 /**
  * 添加函数
@@ -21,7 +21,7 @@ export function replaceApp(wxMonitor) {
 
     const originApp = App
     App = function (appOptions) {
-        const methods = config.APP_CONFIG
+        let methods = config.APP_CONFIG
         methods.forEach((method) => {
             addReplaceHandler({
                 callback: (data) => HandleWxAppEvents[method.replace('AppOn', 'on')](data),
@@ -45,8 +45,41 @@ export function replaceApp(wxMonitor) {
     }
 }
 
+/**
+ * page
+ * @param {*} wxMonitor 
+ */
 export function replacePage(wxMonitor) {
-    
+    if (!Page) {
+        return
+    }
+    HandleWxPageEvents.wxMonitor = wxMonitor
+
+    const originPage = Page
+    Page = function(pageOptions) {
+        let methods = config.PAGE_CPNFIG
+        methods.forEach(method => {
+            addReplaceHandler({
+                callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
+                type: method
+            }, 'page')
+            replaceOld(
+                pageOptions,
+                method.replace('PageOn', 'on'),
+                function (originMethod) {
+                  return function (...args) {
+                    triggerHandlers.apply(null, [method, ...args, 'page'])
+                    if (originMethod) {
+                      originMethod.apply(this, args)
+                    }
+                  }
+                },
+                true
+              )
+        })
+        return originPage.call(this, pageOptions)
+    }
+
 }
 
 /**
@@ -76,7 +109,7 @@ export function replaceRoute(wxMonitor) {
                         referrer: vm.referrerPage || "",
                     }
                     // vm.logSave('page_pv', data)
-                    vm.referrerPage = toUrl
+                    // vm.referrerPage = toUrl
                 } catch (e) {
                     util.warn('[cloudMonitor] url error')
                 }

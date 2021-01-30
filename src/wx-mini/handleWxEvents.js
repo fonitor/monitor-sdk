@@ -13,10 +13,17 @@ const HandleWxAppEvents = {
     }
 }
 
-const HandleWxPageEvent = {
+const HandleWxPageEvents = {
     onLoad() {
-        
+        let vm = this.wxMonitor,
+            toUrl = util.getPage()
+        let data = {
+            simpleUrl: toUrl,
+            referrer: vm.referrerPage || "",
+        }
+        vm.logSave('page_pv', data)
+        vm.referrerPage = toUrl
     }
 }
 
-export { HandleWxAppEvents, HandleWxPageEvent }
+export { HandleWxAppEvents, HandleWxPageEvents }
