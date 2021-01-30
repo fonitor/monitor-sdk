@@ -1,6 +1,7 @@
 import util from '../util/index'
 import wxQueue from '../queue/wx'
 import * as config from '../config/wx'
+import { setupReplace } from './load'
 
 const baseConfig = {
     baseUrl: '',
@@ -33,8 +34,9 @@ export function initMixin(wxMonitor) {
         vm.baseOptions = '' // 初始化上传参数
         vm.referrerPage = '' // 上一个页面
         vm.userId = '' // 用户唯一标识
-        vm.initBaseOptions(_options)
-        vm.$addHook(_options)
+        vm.optionsInit(_options, config.WX_TYPE)
+        // vm.$addHook(_options)
+        setupReplace(wxMonitor)
     }
     /**
      * 微信代理
@@ -62,7 +64,7 @@ export function initMixin(wxMonitor) {
                             simpleUrl: toUrl,
                             referrer: vm.referrerPage || "",
                         }
-                        vm.logSave('page_pv', data)
+                        // vm.logSave('page_pv', data)
                         vm.referrerPage = toUrl
                     } catch (e) {
                         util.warn('[cloudMonitor] url error')
@@ -151,104 +153,5 @@ export function initMixin(wxMonitor) {
                 }
             })
         })
-    }
-    /**
-     * 上传日志
-     * @param {*} type 
-     * @param {*} data 
-     */
-    wxMonitor.logSave = function (type, data) {
-        let useData,
-            logData = JSON.parse(JSON.stringify(data)),
-            vm = this
-        if (!vm.baseOptions) {
-            vm.initBaseOptions(vm.options)
-            setTimeout(() => {
-                logSave(type, data)
-            }, 500)
-            return
-        }
-        switch (type) {
-            case 'page_pv':
-                useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
-                useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
-                vm.queue.pushToQueue(useData)
-                break
-            case 'js_error':
-                useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
-                useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
-                vm.queue.pushToQueue(useData)
-                break
-            case 'http_log':
-                useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
-                useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
-                vm.queue.pushToQueue(useData)
-                break
-            default:
-
-        }
-    }
-
-    /**
-     * 初始化上传参数
-     * @param {*} option 
-     */
-    wxMonitor.initBaseOptions = function (option) {
-        let vm = this
-        // 初始化上传参数
-        wx.getSystemInfo({
-            success: (res) => {
-                vm.baseOptions = {
-                    app: option.app || "",
-                    type: config.WX_TYPE, // 代表微信小程序
-                    projectVersion: option.projectVersion || config.WX_PROJECT_VERSION, // 项目版本号
-                    customerKey: util.generateUUID(), // 会话id
-                    os: res.system.indexOf('iOS') === -1 ? 'Android' : 'IOS', // 系统信息
-                    deviceName: res.model, // 手机型号
-                    brand: res.brand, // 手机品牌
-                    browserVersion: res.version, // 小程序版本号
-                }
-            }
-        });
-    }
-    /**
-     * 设置用户唯一标识
-     * @param {*} userId 
-     */
-    wxMonitor.setUserId = function (userId) {
-        this.userId = userId
-    }
-    /**
-     * 包装js 错误信息
-     * @param {*} option 
-     */
-    wxMonitor.hookApp = function (option) {
-        let vm = this,
-            oldHookApp = {
-                onError: function (e) {
-                    var n = 1 === arguments.length ? [arguments[0]] : Array.apply(null, arguments),
-                        r = option.onError;
-                    try {
-                        let data = {
-                            simpleUrl: util.getPage(),
-                            errorMessage: String(e)
-                        }
-                        vm.logSave('js_error', data)
-                    } catch (err) {
-                        util.warn("[cloudMonitor] error in hookApp:onError", err)
-                    }
-                    if ("function" == typeof r) {
-                        return r.apply(this, n)
-                    }
-                }
-            }
-        return util.ext({}, option, oldHookApp)
-
     }
 }

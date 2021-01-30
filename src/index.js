@@ -1,4 +1,4 @@
-import wxMonitor from './log/wx'
+import wxMonitor from './wx-mini/wx'
 
 /**
  * 监控导出
