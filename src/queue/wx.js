@@ -4,7 +4,6 @@ import Base from './base'
  * 适用于微信消息队列
  */
 export default class wxQueue extends Base {
-
     /**
      * 单例
      * @param {*} baseUrl
@@ -29,7 +28,7 @@ export default class wxQueue extends Base {
     _fetch(data = {}) {
         return new Promise(resolve => {
             wx.request({
-                url: `${this.baseUrl}/api/save/log`,
+                url: `${this.baseUrl}${this.api}`,
                 data: data,
                 method: 'POST',
                 dataType: 'json',

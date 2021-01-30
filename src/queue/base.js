@@ -4,6 +4,7 @@
  */
 export default class Base {
     constructor(baseUrl) {
+        this.api = "/api/save/log"
         this.baseUrl = baseUrl
         this.requestQueue = [] // 队列
         this.requestTimmer = undefined

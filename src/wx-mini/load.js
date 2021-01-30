@@ -1,4 +1,4 @@
-import { replaceApp } from './replace'
+import { replaceApp, replaceNetwork } from './replace'
 
 /**
  * 初始化
@@ -6,4 +6,5 @@ import { replaceApp } from './replace'
  */
 export function setupReplace(wxMonitor) {
     replaceApp(wxMonitor)
+    replaceNetwork(wxMonitor)
 }
