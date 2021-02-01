@@ -2,15 +2,15 @@ import { initMixin } from './aliInit'
 import { initBaseOptions } from '../conmmon/initBaseOptions'
 import { initSaveLog } from '../conmmon/initLog'
 
-let alMonitor = {}
+let aliMonitor = {}
 
-alMonitor.init = function(options) {
+aliMonitor.init = function(options) {
     this._init(options)
 }
 
-initMixin(alMonitor)
-initBaseOptions(alMonitor)
-initSaveLog(alMonitor)
+initMixin(aliMonitor)
+initBaseOptions(aliMonitor)
+initSaveLog(aliMonitor)
 
 
-export default alMonitor
+export default aliMonitor
