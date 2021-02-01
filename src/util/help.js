@@ -34,3 +34,28 @@ export const throttle = (fn, delay) => {
         }, delay)
     }
 }
+
+/**
+ * 校验类型
+ * @param {*} type 
+ */
+export function isType(type) {
+    return function (value) {
+        return nativeToString.call(value) === "[object " + type + "]";
+    };
+}
+
+// 校验枚举
+export const variableTypeDetection = {
+    isNumber: isType('Number'),
+    isString: isType('String'),
+    isBoolean: isType('Boolean'),
+    isNull: isType('Null'),
+    isUndefined: isType('Undefined'),
+    isSymbol: isType('Symbol'),
+    isFunction: isType('Function'),
+    isObject: isType('Object'),
+    isArray: isType('Array'),
+    isProcess: isType('process'),
+    isWindow: isType('Window')
+};

@@ -1,3 +1,5 @@
+import { variableTypeDetection } from '../util/help'
+
 /**
  * 
  * @param {*} delta 
@@ -40,3 +42,4 @@ export function setUrlQuery(url, query) {
 export function getPage() {
     return getCurrentPages()[getCurrentPages().length - 1].__route__
 }
+

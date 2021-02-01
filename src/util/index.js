@@ -1,29 +1,4 @@
 /**
- * 校验类型
- * @param {*} type 
- */
-function isType(type) {
-    return function (value) {
-        return nativeToString.call(value) === "[object " + type + "]";
-    };
-}
-
-// 校验枚举
-const variableTypeDetection = {
-    isNumber: isType('Number'),
-    isString: isType('String'),
-    isBoolean: isType('Boolean'),
-    isNull: isType('Null'),
-    isUndefined: isType('Undefined'),
-    isSymbol: isType('Symbol'),
-    isFunction: isType('Function'),
-    isObject: isType('Object'),
-    isArray: isType('Array'),
-    isProcess: isType('process'),
-    isWindow: isType('Window')
-};
-
-/**
  * 生成用户唯一标识码
  */
 function generateUUID() {
