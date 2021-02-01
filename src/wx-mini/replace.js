@@ -94,7 +94,7 @@ export function replacePage(wxMonitor) {
         }
         const throttleGesturetrigger = throttle(gestureTrigger, 500)
         const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
-        // 用户行为重写
+        // 用户行为重写click
         Object.keys(pageOptions).forEach((m) => {
             if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
                 return
