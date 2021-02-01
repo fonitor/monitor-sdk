@@ -1,4 +1,4 @@
-import util from '../util/index'
+import { getPage } from './util'
 
 
 const HandleWxAppEvents = {
@@ -6,7 +6,7 @@ const HandleWxAppEvents = {
         if (!this.wxMonitor) return
         let vm = this.wxMonitor
         let data = {
-            simpleUrl: util.getPage(),
+            simpleUrl: getPage(),
             errorMessage: String(e)
         }
         vm.logSave('js_error', data)
@@ -16,7 +16,7 @@ const HandleWxAppEvents = {
 const HandleWxPageEvents = {
     onLoad() {
         let vm = this.wxMonitor,
-            toUrl = util.getPage()
+            toUrl = getPage()
         let data = {
             simpleUrl: toUrl,
             referrer: vm.referrerPage || "",

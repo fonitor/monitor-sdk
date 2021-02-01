@@ -4,6 +4,7 @@ import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import { replaceOld, throttle } from '../util/help'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { ELinstenerTypes } from './constant'
+import { getNavigateBackTargetUrl, getPage } from './util'
 
 /**
  * 添加函数
@@ -138,7 +139,7 @@ export function replaceRoute(wxMonitor) {
             value: function (options) {
                 var toUrl;
                 if (method === WxRouteEvents.NavigateBack) {
-                    toUrl = util.getNavigateBackTargetUrl(options.delta);
+                    toUrl = getNavigateBackTargetUrl(options.delta);
                 } else {
                     toUrl = options.url;
                 }
@@ -190,7 +191,7 @@ export function replaceNetwork(wxMonitor) {
                         // 上报接口报警
                         if (!!res && res.statusCode && res.statusCode != 200) {
                             let data = {
-                                simpleUrl: util.getPage(),
+                                simpleUrl: getPage(),
                                 httpUrl: options$1.url || "",
                                 httpUploadType: config.HTTP_ERROR,
                                 responseText: JSON.stringify(res),
@@ -202,7 +203,7 @@ export function replaceNetwork(wxMonitor) {
                         } else {
                             let endTime = new Date().getTime()
                             let consumeData = {
-                                simpleUrl: util.getPage(),
+                                simpleUrl: getPage(),
                                 loadTime: endTime - startTime,
                                 httpUrl: options$1.url || "",
                                 httpUploadType: config.HTTP_SUCCESS,
@@ -223,7 +224,7 @@ export function replaceNetwork(wxMonitor) {
                 let failHandler = function (err) {
                     try {
                         let data = {
-                            simpleUrl: util.getPage(),
+                            simpleUrl: getPage(),
                             httpUrl: options$1.url || "",
                             httpUploadType: config.HTTP_ERROR,
                             responseText: JSON.stringify(err),
