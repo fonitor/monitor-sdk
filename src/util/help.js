@@ -15,3 +15,22 @@ export function replaceOld(source, name, replacement, isForced = false) {
         }
     }
 }
+
+// 函数节流
+/**
+ *
+ * ../param fn 需要节流的函数
+ * ../param delay 节流的时间间隔
+ * ../returns 返回一个包含节流功能的函数
+ */
+export const throttle = (fn, delay) => {
+    let canRun = true
+    return function (...args) {
+        if (!canRun) return
+        fn.apply(this, args)
+        canRun = false
+        setTimeout(() => {
+            canRun = true
+        }, delay)
+    }
+}

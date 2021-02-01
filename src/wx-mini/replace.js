@@ -1,8 +1,9 @@
 import * as config from '../config/wx'
 import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
-import { replaceOld } from '../util/help'
+import { replaceOld, throttle } from '../util/help'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
+import { ELinstenerTypes } from './constant'
 
 /**
  * 添加函数
@@ -56,8 +57,9 @@ export function replacePage(wxMonitor) {
     HandleWxPageEvents.wxMonitor = wxMonitor
 
     const originPage = Page
-    Page = function(pageOptions) {
+    Page = function (pageOptions) {
         let methods = config.PAGE_CPNFIG
+        // pv uv 自动化
         methods.forEach(method => {
             addReplaceHandler({
                 callback: (data) => HandleWxPageEvents[method.replace('PageOn', 'on')](data),
@@ -67,15 +69,52 @@ export function replacePage(wxMonitor) {
                 pageOptions,
                 method.replace('PageOn', 'on'),
                 function (originMethod) {
-                  return function (...args) {
-                    triggerHandlers.apply(null, [method, ...args, 'page'])
-                    if (originMethod) {
-                      originMethod.apply(this, args)
+                    return function (...args) {
+                        triggerHandlers.apply(null, [method, ...args, 'page'])
+                        if (originMethod) {
+                            originMethod.apply(this, args)
+                        }
                     }
-                  }
                 },
                 true
-              )
+            )
+        })
+        /**
+         * 记录用户行为
+         * @param {*} e 
+         */
+        function gestureTrigger(e) {
+            e.mitoProcessed = true // 给事件对象增加特殊的标记，避免被无限透传
+            console.log('测试点击封装')
+            console.log(e)
+        }
+        function isNotAction(method) {
+            // 如果是method中处理过的方法，则不是处理用户手势行为的方法
+            return methods.find((m) => m.replace('PageOn', 'on') === method)
+        }
+        const throttleGesturetrigger = throttle(gestureTrigger, 500)
+        const linstenerTypes = [ELinstenerTypes.Touchmove, ELinstenerTypes.Tap]
+        // 用户行为重写
+        Object.keys(pageOptions).forEach((m) => {
+            if ('function' !== typeof pageOptions[m] || isNotAction(m)) {
+                return
+            }
+            replaceOld(
+                pageOptions,
+                m,
+                function (originMethod) {
+                    return function (...args) {
+                        const e = args[0]
+                        if (e && e.type && e.currentTarget && !e.mitoProcessed) {
+                            if (linstenerTypes.indexOf(e.type)) {
+                                throttleGesturetrigger(e)
+                            }
+                        }
+                        originMethod.apply(this, args)
+                    }
+                },
+                true
+            )
         })
         return originPage.call(this, pageOptions)
     }
@@ -117,6 +156,7 @@ export function replaceRoute(wxMonitor) {
             }
         })
     })
+
 }
 
 /**
