@@ -15,6 +15,7 @@ const HandleWxAppEvents = {
 
 const HandleWxPageEvents = {
     onLoad() {
+        if (!this.wxMonitor) return
         let vm = this.wxMonitor,
             toUrl = getPage()
         let data = {
