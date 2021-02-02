@@ -1,5 +1,5 @@
 
-export function initSaveLog(monitor) {
+export function initFun(monitor) {
     /**
      * 设置用户唯一标识
      * @param {*} userId 

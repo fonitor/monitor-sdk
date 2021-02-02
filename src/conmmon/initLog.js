@@ -12,7 +12,7 @@ export function initSaveLog(monitor) {
             logData = JSON.parse(JSON.stringify(data)),
             vm = this
         if (!vm.baseOptions) {
-            vm.optionsInit(vm.options)
+            vm.optionsInit(vm.$options)
             setTimeout(() => {
                 this.logSave(type, data)
             }, 500)

@@ -24,18 +24,18 @@ wxMonitor.init({
 方便统计错误数以及后续pv uv等
 
 ~~~
-mpExtend.setUserId(userId)
+wxMonitor.setUserId(userId)
 ~~~
 
 #### 支付宝小程序
 
-下载sdk 导入至微信小程序端
+下载sdk 导入至支付宝小程序端
 
 #### 找到app.js
 
 ~~~
 import { aliMonitor } from './mpExtend.js'
-wxMonitor.init({
+aliMonitor.init({
   app: 'zuc',
   baseUrl: 'http://localhost:9001'
 })
@@ -46,7 +46,7 @@ wxMonitor.init({
 方便统计错误数以及后续pv uv等
 
 ~~~
-mpExtend.setUserId(userId)
+aliMonitor.setUserId(userId)
 ~~~
 
 ### 服务端
