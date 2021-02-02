@@ -1,25 +1,26 @@
 import { getPage } from './util'
 
 
-const HandleWxAppEvents = {
+const HandleAliAppEvents = {
     onError(e) {
         try {
-            if (!this.wxMonitor) return
-            let vm = this.wxMonitor
+            if (!this.aliMonitor) return
+            let vm = this.aliMonitor
             let data = {
                 simpleUrl: getPage(),
                 errorMessage: String(e)
             }
             vm.logSave('js_error', data)
-        } catch (e) { }
+        } catch (e) {
+        }
     }
 }
 
-const HandleWxPageEvents = {
+const HandleAliPageEvents = {
     onLoad() {
         try {
-            if (!this.wxMonitor) return
-            let vm = this.wxMonitor,
+            if (!this.aliMonitor) return
+            let vm = this.aliMonitor,
                 toUrl = getPage()
             let data = {
                 simpleUrl: toUrl,
@@ -27,8 +28,10 @@ const HandleWxPageEvents = {
             }
             vm.logSave('page_pv', data)
             vm.referrerPage = toUrl
-        } catch (e) { }
+        } catch (e) {
+
+        }
     }
 }
 
-export { HandleWxAppEvents, HandleWxPageEvents }
+export { HandleAliAppEvents, HandleAliPageEvents }

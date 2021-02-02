@@ -34,7 +34,8 @@ export function initMixin(wxMonitor) {
         vm.baseOptions = '' // 初始化上传参数
         vm.referrerPage = '' // 上一个页面
         vm.userId = '' // 用户唯一标识
-        vm.optionsInit(_options, config.WX_TYPE)
+        vm.SOURCE_TYPE = config.WX_TYPE
+        vm.optionsInit(_options)
         setupReplace(wxMonitor)
     }
 }

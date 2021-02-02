@@ -1,11 +1,11 @@
-import { replaceNetwork } from './replace'
+import { replacePage, replaceApp, replaceNetwork } from './replace'
 
 /**
  * 初始化
  * @param {*} aliMonitor 
  */
 export function setupReplace(aliMonitor) {
-    // replacePage(aliMonitor)
-    // replaceApp(aliMonitor)
+    replacePage(aliMonitor)
+    replaceApp(aliMonitor)
     replaceNetwork(aliMonitor)
 }
