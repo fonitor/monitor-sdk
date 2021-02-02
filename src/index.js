@@ -1,10 +1,8 @@
-import wxMonitor from './wx-mini/wx'
-import aliMonitor from './ali/ali'
+import wx from './wx-mini/wx'
+import ali from './ali/ali'
 
 /**
  * 监控导出
  */
-export default {
-    wxMonitor,
-    aliMonitor
-}
+export const wxMonitor = wx
+export const aliMonitor = ali
