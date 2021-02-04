@@ -189,7 +189,7 @@ export function replaceNetwork(wxMonitor) {
                 let successHandler = function (res) {
                     try {
                         // 上报接口报警
-                        if (!!res && res.statusCode && res.statusCode != 200) {
+                        if (!!res && res.statusCode != 200) {
                             let data = {
                                 simpleUrl: getPage(),
                                 httpUrl: options$1.url || "",
