@@ -1,7 +1,7 @@
 import Base from './base'
 
 /**
- * 适用于微信消息队列
+ * 适用于支付宝消息队列
  */
 export default class aliQueue extends Base {
     /**

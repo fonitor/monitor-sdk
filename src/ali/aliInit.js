@@ -10,6 +10,10 @@ const baseConfig = {
     autoReportPagePerformance: true, // 是否上报页面性能
 }
 
+/**
+ * 初始化支付宝sdk
+ * @param {*} aliMonitor 
+ */
 export function initMixin(aliMonitor) {
     aliMonitor._init = function (options) {
         const vm = this
