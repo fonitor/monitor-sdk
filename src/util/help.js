@@ -126,3 +126,14 @@ export function isInstanceOf(wat, base) {
 export function isExistProperty(obj, key) {
     return obj.hasOwnProperty(key)
 }
+
+/**
+ * 添加事件监听器
+ * @param {*} target 
+ * @param {*} eventName 
+ * @param {*} handler 
+ * @param {*} opitons 
+ */
+export function on(target, eventName, handler, opitons = false) {
+    target.addEventListener(eventName, handler, opitons)
+}

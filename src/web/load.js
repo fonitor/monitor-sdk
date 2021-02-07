@@ -1,5 +1,5 @@
 
-import { replaceNetwork } from './replace'
+import { replaceNetwork, replaceError } from './replace'
 
 
 
@@ -10,4 +10,6 @@ import { replaceNetwork } from './replace'
 export function setupReplace(webMonitor) {
     // 处理http
     replaceNetwork(webMonitor)
+    // js 错误
+    replaceError(webMonitor)
 }
