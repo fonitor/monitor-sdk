@@ -1,4 +1,5 @@
 import { HTTP_CODE } from '../conmmon/constant'
+import { isError } from '../util/help'
 
 
 const HandleEvents = {
@@ -8,7 +9,7 @@ const HandleEvents = {
      * @param {*} type 
      */
     handleHttp(data, type) {
-        
+
     },
 
     /**
@@ -16,10 +17,18 @@ const HandleEvents = {
      * @param {*} errorEvent 
      */
     handleError(errorEvent) {
-        console.log('接收到错误')
-        console.log(errorEvent)
         const target = errorEvent.target
-        console.log(target)
+        console.log(errorEvent)
+        // 资源错误
+        if (!!target.localName) {
+            return
+        }
+        // code error
+        const { message, filename, lineno, colno, error } = errorEvent
+        let result
+        if (error && isError(error)) {
+            // result = extractErrorStack(error)
+        }
     }
 }
 

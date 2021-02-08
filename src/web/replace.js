@@ -36,7 +36,7 @@ export function replaceError(webMonitor) {
         window,
         webConfig.PAGE_JS_ERROR,
         function (e) {
-            triggerHandlers('error', e)
+            triggerHandlers(webConfig.PAGE_JS_ERROR, e)
         },
         true
     )

@@ -1,6 +1,8 @@
 import { WX_TYPE, WX_PROJECT_VERSION } from '../config/wx'
 import { ALI_TYPE, ALI_PROJECT_VERSION } from '../config/ali'
+import { WEB_TYPE, WEB_PROJECT_VERSION } from '../config/web'
 import util from '../util/index'
+import { getDevice } from '../util/help'
 
 /**
  * 初始化
@@ -45,6 +47,20 @@ export function initBaseOptions(monitor) {
                         }
                     }
                 });
+                break
+            case WEB_TYPE:
+                // 初始化web 参数
+                let configObj = getDevice()
+                vm.baseOptions = {
+                    app: option.app || "",
+                    type: WEB_TYPE, // 代表web
+                    projectVersion: option.projectVersion || ALI_PROJECT_VERSION, // 项目版本号
+                    customerKey: util.generateUUID(), // 会话id
+                    os: res.platform === 'iOS' ? 'IOS' : 'Android', // 系统信息
+                    deviceName: res.model, // 手机型号
+                    brand: res.brand, // 手机品牌
+                    browserVersion: res.version, // 浏览器本号
+                }
                 break
             default:
                 break

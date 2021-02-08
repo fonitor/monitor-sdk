@@ -65,26 +65,6 @@ export const variableTypeDetection = {
 };
 
 /**
- * Checks whether given value's type is one of a few Error or Error-like
- * {../link isError}.
- *
- * ../param wat A value to be checked.
- * ../returns A boolean representing the result.
- */
-export function isError(wat) {
-    switch (nativeToString.call(wat)) {
-        case '[object Error]':
-            return true
-        case '[object Exception]':
-            return true
-        case '[object DOMException]':
-            return true
-        default:
-            return isInstanceOf(wat, Error)
-    }
-}
-
-/**
  * 检查是否是空对象
  * ../param obj 待检测的对象
  */
@@ -106,23 +86,6 @@ export function isEmpty(wat) {
 //   // tslint:enable:no-unsafe-any
 // }
 
-/**
- * Checks whether given value's type is an instance of provided constructor.
- * {../link isInstanceOf}.
- *
- * ../param wat A value to be checked.
- * ../param base A constructor to be used in a check.
- * ../returns A boolean representing the result.
- */
-export function isInstanceOf(wat, base) {
-    try {
-        // tslint:disable-next-line:no-unsafe-any
-        return wat instanceof base
-    } catch (_e) {
-        return false
-    }
-}
-
 export function isExistProperty(obj, key) {
     return obj.hasOwnProperty(key)
 }
@@ -136,4 +99,53 @@ export function isExistProperty(obj, key) {
  */
 export function on(target, eventName, handler, opitons = false) {
     target.addEventListener(eventName, handler, opitons)
+}
+
+/**
+ * Checks whether given value's type is one of a few Error or Error-like
+ * {../link isError}.
+ *
+ * ../param wat A value to be checked.
+ * ../returns A boolean representing the result.
+ */
+export function isError(wat) {
+    switch (nativeToString.call(wat)) {
+        case '[object Error]':
+            return true
+        case '[object Exception]':
+            return true
+        case '[object DOMException]':
+            return true
+        default:
+            return isInstanceOf(wat, Error)
+    }
+}
+
+/**
+* Checks whether given value's type is an instance of provided constructor.
+* {../link isInstanceOf}.
+*
+* ../param wat A value to be checked.
+* ../param base A constructor to be used in a check.
+* ../returns A boolean representing the result.
+*/
+export function isInstanceOf(wat, base) {
+    try {
+        // tslint:disable-next-line:no-unsafe-any
+        return wat instanceof base
+    } catch (_e) {
+        return false
+    }
+}
+
+/**
+ * 解析error的stack，并返回args、column、line、func、url:
+ * @param ex
+ */
+export function extractErrorStack(ex) {
+
+}
+
+export function getDevice() {
+    
 }
