@@ -51,7 +51,6 @@ export function initBaseOptions(monitor) {
             case WEB_TYPE:
                 // 初始化web 参数
                 let configObj = getDevice()
-                console.log(configObj)
                 vm.baseOptions = {
                     app: option.app || "",
                     type: WEB_TYPE, // 代表web
@@ -62,7 +61,6 @@ export function initBaseOptions(monitor) {
                     brand: configObj.os + (configObj.osVersion ? " " + configObj.osVersion : ""), // 手机品牌
                     browserVersion: configObj.osVersion, // 浏览器本号
                 }
-                console.log(vm.baseOptions)
                 break
             default:
                 break

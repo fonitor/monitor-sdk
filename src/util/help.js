@@ -139,9 +139,9 @@ export function isInstanceOf(wat, base) {
 }
 
 /**
- * 解析error的stack，并返回args、column、line、func、url:
- * @param ex
+ * 获取当前的时间戳
+ * ../returns 返回当前时间戳
  */
-export function extractErrorStack(ex) {
-
+export function getTimestamp() {
+    return Date.now()
 }
