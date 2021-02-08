@@ -145,7 +145,3 @@ export function isInstanceOf(wat, base) {
 export function extractErrorStack(ex) {
 
 }
-
-export function getDevice() {
-    
-}
