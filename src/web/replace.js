@@ -13,18 +13,15 @@ export function addReplaceHandler(handler) {
 
 /**
  * http 请求监控
- * @param {*} webMonitor 
  */
-export function replaceNetwork(webMonitor) {
+export function replaceNetwork() {
 
 }
 
 /**
  * 错误监控
- * @param {*} webMonitor 
  */
-export function replaceError(webMonitor) {
-    HandleEvents.handleError.webMonitor = webMonitor
+export function replaceError() {
     // 先添加方法到数组
     addReplaceHandler({
         callback: (error) => {

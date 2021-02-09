@@ -25,7 +25,6 @@ const HandleEvents = {
         
 
         const target = errorEvent.target
-        console.log(errorEvent)
         // 资源错误
         if (!!target.localName) {
             return
@@ -41,7 +40,7 @@ const HandleEvents = {
 
         let data = {
             simpleUrl: getLocationHref(),
-            errorMessage: String(JSON.stringify(data))
+            errorMessage: String(JSON.stringify(result))
         }
         vm.logSave('js_error', data)
     },

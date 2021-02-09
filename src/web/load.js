@@ -1,5 +1,6 @@
 
 import { replaceNetwork, replaceError } from './replace'
+import { HandleEvents } from './HandleEvents'
 
 
 
@@ -8,8 +9,9 @@ import { replaceNetwork, replaceError } from './replace'
  * @param {*} webMonitor 
  */
 export function setupReplace(webMonitor) {
+    HandleEvents.webMonitor = webMonitor
     // 处理http
-    replaceNetwork(webMonitor)
+    replaceNetwork()
     // js 错误
-    replaceError(webMonitor)
+    replaceError()
 }
