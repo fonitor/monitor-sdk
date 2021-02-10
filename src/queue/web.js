@@ -39,7 +39,6 @@ export default class webQueue extends Base {
                      * 4    Loaded         HTTP 响应已经完全接收。
                      */
                     if (xhr.readyState === 4) {
-                        console.log('回调成功')
                         resolve()
                     }
                 }
