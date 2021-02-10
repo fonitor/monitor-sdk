@@ -1,6 +1,6 @@
 import { HTTP_CODE } from '../conmmon/constant'
 import { isError } from '../util/help'
-import { extractErrorStack } from './util'
+import { extractErrorStack, resourceTransform } from './util'
 import { ERRORTYPES } from './constant'
 import { getLocationHref } from './util'
 
@@ -22,11 +22,11 @@ const HandleEvents = {
   handleError(errorEvent) {
     if (!this.webMonitor) return
     let vm = this.webMonitor
-
-
     const target = errorEvent.target
-    // 资源错误
+    // 资源错误上报
     if (!!target.localName) {
+      let resourceData = resourceTransform(errorEvent.target)
+      vm.logSave('resource_load', resourceData)
       return
     }
     // code error

@@ -40,6 +40,13 @@ export function initSaveLog(monitor) {
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
+            case 'resource_load':
+                useData = Object.assign(logData, vm.baseOptions)
+                useData.userId = vm.userId || "", // 用户标识
+                    useData.uploadType = type
+                useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
+                vm.queue.pushToQueue(useData)
+                break
             default:
 
         }

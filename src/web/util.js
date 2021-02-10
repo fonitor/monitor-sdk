@@ -196,3 +196,21 @@ export function extractErrorStack(ex) {
 
     return normal
 }
+
+const resourceMap = {
+  img: 'img',
+  script: 'script',
+  link: 'link'
+}
+
+/**
+ * 资源错误信息合并
+ * @param {*} target 
+ */
+export function resourceTransform(target) {
+  return {
+    simpleUrl: getLocationHref(),
+    sourceUrl: '资源地址: ' + (target.src && target.src.slice(0, 100) || target.href && target.href.slice(0, 100)),
+    elementType: `${resourceMap[target.localName] || target.localName || ""}`
+  }
+}
