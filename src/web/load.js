@@ -1,7 +1,6 @@
 
-import { replaceNetwork, replaceError } from './replace'
+import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace } from './replace'
 import { HandleEvents } from './HandleEvents'
-
 
 
 /**
@@ -14,4 +13,9 @@ export function setupReplace(webMonitor) {
     replaceNetwork()
     // js 错误
     replaceError()
+    // pv uv
+    listenHashchange()
+    historyReplace()
+    // 页面点击
+    domReplace()
 }

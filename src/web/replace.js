@@ -38,3 +38,18 @@ export function replaceError() {
         true
     )
 }
+
+// history
+export function listenHashchange() {
+
+}
+
+// hashchange
+export function historyReplace() {
+
+}
+
+// 页面点击
+export function domReplace() {
+
+}
