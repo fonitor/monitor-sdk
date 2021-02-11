@@ -1,4 +1,4 @@
-import { ERRORTYPES } from './constant'
+import { ERRORTYPES } from '../config/web'
 
 
 /**

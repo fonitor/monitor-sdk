@@ -5,3 +5,7 @@ export const PAGE_CPNFIG = ['onLoad']
 export const AliHookMethods = ['request']
 export const HTTP_SUCCESS = 1
 export const HTTP_ERROR = 2
+export const ELinstenerTypes = {
+    Touchmove: 'touchmove',
+    Tap: 'tap'
+}

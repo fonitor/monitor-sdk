@@ -3,7 +3,7 @@ import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import { replaceOld, throttle } from '../util/help'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
-import { ELinstenerTypes } from './constant'
+import { ELinstenerTypes } from '../config/wx'
 import { getNavigateBackTargetUrl, getPage } from './util'
 import * as commonConfig from '../config/index'
 

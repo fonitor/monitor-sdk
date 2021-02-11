@@ -1,7 +1,7 @@
 import { HTTP_CODE } from '../conmmon/constant'
 import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
-import { ERRORTYPES } from './constant'
+import { ERRORTYPES } from '../config/web'
 import { getLocationHref } from './util'
 import * as commonConfig from '../config/index'
 

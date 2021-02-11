@@ -1,7 +1,7 @@
 import { HandleEvents } from './HandleEvents'
 import { on } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
-import * as webConfig from './constant'
+import * as webConfig from '../config/web'
 
 /**
  * 添加方法

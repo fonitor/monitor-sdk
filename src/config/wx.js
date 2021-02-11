@@ -6,3 +6,7 @@ export const HTTP_SUCCESS = 1
 export const HTTP_ERROR = 2
 export const APP_CONFIG = ['onError']
 export const PAGE_CPNFIG = ['onLoad']
+export const ELinstenerTypes = {
+    Touchmove: 'touchmove',
+    Tap: 'tap'
+}

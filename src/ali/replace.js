@@ -1,7 +1,7 @@
 import * as config from '../config/ali'
 import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
-import { ELinstenerTypes } from './constant'
+import { ELinstenerTypes } from '../config/ali'
 import { replaceOld, throttle } from '../util/help'
 import { HandleAliAppEvents, HandleAliPageEvents } from './HandleAliEvents'
 import { getPage } from './util'
