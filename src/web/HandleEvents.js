@@ -3,6 +3,7 @@ import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
 import { ERRORTYPES } from './constant'
 import { getLocationHref } from './util'
+import * as commonConfig from '../config/index'
 
 
 const HandleEvents = {
@@ -26,7 +27,7 @@ const HandleEvents = {
     // 资源错误上报
     if (!!target.localName) {
       let resourceData = resourceTransform(errorEvent.target)
-      vm.logSave('resource_load', resourceData)
+      vm.logSave(commonConfig.RESOURCE_LOAD, resourceData)
       return
     }
     // code error
@@ -42,7 +43,7 @@ const HandleEvents = {
       simpleUrl: getLocationHref(),
       errorMessage: String(JSON.stringify(result))
     }
-    vm.logSave('js_error', data)
+    vm.logSave(commonConfig.JS_ERROR, data)
   },
   /**
    * 

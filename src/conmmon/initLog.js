@@ -1,4 +1,5 @@
 import util from '../util/index'
+import * as config from '../config/index'
 
 
 export function initSaveLog(monitor) {
@@ -19,28 +20,28 @@ export function initSaveLog(monitor) {
             return
         }
         switch (type) {
-            case 'page_pv':
+            case config.PAGE:
                 useData = Object.assign(logData, vm.baseOptions)
                 useData.userId = vm.userId || "", // 用户标识
                     useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
-            case 'js_error':
+            case config.JS_ERROR:
                 useData = Object.assign(logData, vm.baseOptions)
                 useData.userId = vm.userId || "", // 用户标识
                     useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
-            case 'http_log':
+            case config.HTTP_LOG:
                 useData = Object.assign(logData, vm.baseOptions)
                 useData.userId = vm.userId || "", // 用户标识
                     useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
-            case 'resource_load':
+            case config.RESOURCE_LOAD:
                 useData = Object.assign(logData, vm.baseOptions)
                 useData.userId = vm.userId || "", // 用户标识
                     useData.uploadType = type

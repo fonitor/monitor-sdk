@@ -5,6 +5,7 @@ import { ELinstenerTypes } from './constant'
 import { replaceOld, throttle } from '../util/help'
 import { HandleAliAppEvents, HandleAliPageEvents } from './HandleAliEvents'
 import { getPage } from './util'
+import * as commonConfig from '../config/index'
 
 /**
  * 添加函数
@@ -164,7 +165,7 @@ export function replaceNetwork(aliMonitor) {
                                 httpStatus: res.status
                             }
                             if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                                vm.logSave('http_log', data)
+                                vm.logSave(commonConfig.HTTP_LOG, data)
                             }
                         } else {
                             let endTime = new Date().getTime()
@@ -177,7 +178,7 @@ export function replaceNetwork(aliMonitor) {
                                 httpStatus: res.status || 200
                             }
                             if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                                vm.logSave('http_log', consumeData)
+                                vm.logSave(commonConfig.HTTP_LOG, consumeData)
                             }
                         }
                     } catch (e) {
@@ -197,7 +198,7 @@ export function replaceNetwork(aliMonitor) {
                             httpStatus: '0'
                         }
                         if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                            vm.logSave('http_log', data)
+                            vm.logSave(commonConfig.HTTP_LOG, data)
                         }
                     } catch (e) {
                         util.warn('[cloudMonitor] http error')

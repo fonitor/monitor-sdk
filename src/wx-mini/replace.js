@@ -5,6 +5,7 @@ import { replaceOld, throttle } from '../util/help'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { ELinstenerTypes } from './constant'
 import { getNavigateBackTargetUrl, getPage } from './util'
+import * as commonConfig from '../config/index'
 
 /**
  * 添加函数
@@ -148,7 +149,7 @@ export function replaceRoute(wxMonitor) {
                         simpleUrl: toUrl,
                         referrer: vm.referrerPage || "",
                     }
-                    // vm.logSave('page_pv', data)
+                    // vm.logSave('', data)
                     // vm.referrerPage = toUrl
                 } catch (e) {
                     util.warn('[cloudMonitor] url error')
@@ -198,7 +199,7 @@ export function replaceNetwork(wxMonitor) {
                                 httpStatus: res.statusCode
                             }
                             if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                                vm.logSave('http_log', data)
+                                vm.logSave(commonConfig.HTTP_LOG, data)
                             }
                         } else {
                             let endTime = new Date().getTime()
@@ -211,7 +212,7 @@ export function replaceNetwork(wxMonitor) {
                                 httpStatus: res.statusCode || 200
                             }
                             if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                                vm.logSave('http_log', consumeData)
+                                vm.logSave(commonConfig.HTTP_LOG, consumeData)
                             }
                         }
                     } catch (e) {
@@ -231,7 +232,7 @@ export function replaceNetwork(wxMonitor) {
                             httpStatus: '0'
                         }
                         if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                            vm.logSave('http_log', data)
+                            vm.logSave(commonConfig.HTTP_LOG, data)
                         }
                     } catch (e) {
                         util.warn('[cloudMonitor] http error')
