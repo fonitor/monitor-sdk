@@ -1,4 +1,3 @@
-import { HTTP_CODE } from '../conmmon/constant'
 import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
 import { ERRORTYPES } from '../config/web'
@@ -46,7 +45,7 @@ const HandleEvents = {
     vm.logSave(commonConfig.JS_ERROR, data)
   },
   /**
-   * 
+   * 处理SyntaxError，stack没有lineno、colno
    * @param {*} message 
    * @param {*} lineno 
    * @param {*} colno 
@@ -73,6 +72,15 @@ const HandleEvents = {
       stack: [element]
     }
   },
+
+  /**
+   * history 模式下路由注册
+   * @param {*} data 
+   */
+  handleHistory(data) {
+    console.log(data)
+  }
+  
 }
 
 export { HandleEvents }

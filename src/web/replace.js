@@ -2,6 +2,7 @@ import { HandleEvents } from './HandleEvents'
 import { on } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
+import { getLocationHref } from './util'
 
 /**
  * 添加方法
@@ -39,9 +40,13 @@ export function replaceError() {
     )
 }
 
+// 上一次的路由
+let lastHref
+lastHref = getLocationHref()
+
 // history
 export function listenHashchange() {
-
+    
 }
 
 // hashchange

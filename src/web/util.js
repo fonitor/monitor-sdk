@@ -102,6 +102,9 @@ export function getDevice() {
     return device;
 }
 
+/**
+ * 获取当前页面地址
+ */
 export function getLocationHref() {
     if (typeof document === 'undefined' || document.location == null) return ''
     return document.location.href
@@ -213,4 +216,21 @@ export function resourceTransform(target) {
     sourceUrl: '资源地址: ' + (target.src && target.src.slice(0, 100) || target.href && target.href.slice(0, 100)),
     elementType: `${resourceMap[target.localName] || target.localName || ""}`
   }
+}
+
+/**
+ * 检测路由支持情况
+ */
+export function supportsHistory() {
+  // NOTE: in Chrome App environment, touching history.pushState, *even inside
+  //       a try/catch block*, will cause Chrome to output an error to console.error
+  // borrowed from: https://github.com/angular/angular.js/pull/13945/files
+  const chrome = (window).chrome
+  console.log('测试')
+  console.log(chrome)
+  // tslint:disable-next-line:no-unsafe-any
+  const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime
+  const hasHistoryApi = 'history' in window && !!window.history.pushState && !!window.history.replaceState
+
+  return !isChromePackagedApp && hasHistoryApi
 }
