@@ -226,8 +226,6 @@ export function supportsHistory() {
   //       a try/catch block*, will cause Chrome to output an error to console.error
   // borrowed from: https://github.com/angular/angular.js/pull/13945/files
   const chrome = (window).chrome
-  console.log('测试')
-  console.log(chrome)
   // tslint:disable-next-line:no-unsafe-any
   const isChromePackagedApp = chrome && chrome.app && chrome.app.runtime
   const hasHistoryApi = 'history' in window && !!window.history.pushState && !!window.history.replaceState
