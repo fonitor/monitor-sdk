@@ -1,6 +1,7 @@
 export const WEB_TYPE = 1
 export const WEB_PROJECT_VERSION = '1.0.0'
 export const PAGE_JS_ERROR = 'error'
+export const HISTORY = 'history'
 /**
  * 上报错误类型
  */

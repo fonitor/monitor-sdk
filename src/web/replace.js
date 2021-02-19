@@ -1,8 +1,8 @@
 import { HandleEvents } from './HandleEvents'
-import { on } from '../util/help'
+import { on, replaceOld } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
-import { getLocationHref } from './util'
+import { getLocationHref, supportsHistory } from './util'
 
 /**
  * 添加方法
@@ -44,14 +44,48 @@ export function replaceError() {
 let lastHref
 lastHref = getLocationHref()
 
-// history
+// hashchange
 export function listenHashchange() {
-    
+
 }
 
-// hashchange
+// history
 export function historyReplace() {
-
+    // 先添加方法到数组
+    addReplaceHandler({
+        callback: (data) => {
+            HandleEvents.handleHistory(data)
+        },
+        type: webConfig.HISTORY
+    })
+    if (!supportsHistory()) return
+    const oldOnpopstate = window.onpopstate
+    window.onpopstate = function (...args) {
+        const to = getLocationHref()
+        const from = lastHref
+        triggerHandlers(webConfig.HISTORY, {
+            from,
+            to
+        })
+        oldOnpopstate && oldOnpopstate.apply(this, args)
+    }
+    function historyReplaceFn(originalHistoryFn) {
+        return function (...args) {
+            const url = args.length > 2 ? args[2] : undefined
+            if (url) {
+                const from = lastHref
+                const to = String(url)
+                lastHref = to
+                triggerHandlers(webConfig.HISTORY, {
+                    from,
+                    to
+                })
+            }
+            return originalHistoryFn.apply(this, args)
+        }
+    }
+    replaceOld(window.history, 'pushState', historyReplaceFn)
+    replaceOld(window.history, 'replaceState', historyReplaceFn)
 }
 
 // 页面点击
