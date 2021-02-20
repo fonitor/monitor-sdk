@@ -18,10 +18,10 @@ export function addReplaceHandler(handler) {
 export function replaceNetwork() {
     addReplaceHandler({
         callback: (e) => {
-          HandleEvents.handleHashchange(e)
+            HandleEvents.handleHashchange(e)
         },
         type: webConfig.HASHCHANGE
-      })
+    })
     if (!isExistProperty(window, 'onpopstate')) {
         on(window, webConfig.HASHCHANGE, function (e) {
             triggerHandlers(webConfig.HASHCHANGE, e)
@@ -100,5 +100,11 @@ export function historyReplace() {
 
 // 页面点击
 export function domReplace() {
-
+    addReplaceHandler({
+        callback: (data) => {
+            console.log(data)
+            
+        },
+        type: webConfig.DOM
+    })
 }

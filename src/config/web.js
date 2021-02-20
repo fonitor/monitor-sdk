@@ -3,6 +3,7 @@ export const WEB_PROJECT_VERSION = '1.0.0'
 export const PAGE_JS_ERROR = 'error'
 export const HISTORY = 'history'
 export const HASHCHANGE = 'hashchange'
+export const DOM = 'dom'
 
 /**
  * 上报错误类型
