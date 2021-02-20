@@ -78,14 +78,15 @@ const HandleEvents = {
    * @param {*} data 
    */
   handleHistory(data) {
-    console.log('测试')
-    console.log('测试')
-    console.log('测试')
-    console.log('测试')
-    console.log('测试')
-    console.log('测试')
-
     console.log(data)
+  },
+  /**
+   * hash
+   * @param {*} e 
+   */
+  handleHashchange(e) {
+    console.log('测试')
+    console.log(e)
   }
   
 }

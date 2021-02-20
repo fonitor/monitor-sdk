@@ -1,5 +1,5 @@
 import { HandleEvents } from './HandleEvents'
-import { on, replaceOld } from '../util/help'
+import { on, replaceOld, isExistProperty } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
 import { getLocationHref, supportsHistory } from './util'
@@ -16,7 +16,17 @@ export function addReplaceHandler(handler) {
  * http 请求监控
  */
 export function replaceNetwork() {
-
+    addReplaceHandler({
+        callback: (e) => {
+          HandleEvents.handleHashchange(e)
+        },
+        type: webConfig.HASHCHANGE
+      })
+    if (!isExistProperty(window, 'onpopstate')) {
+        on(window, webConfig.HASHCHANGE, function (e) {
+            triggerHandlers(webConfig.HASHCHANGE, e)
+        })
+    }
 }
 
 /**
