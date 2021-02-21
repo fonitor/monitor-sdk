@@ -238,9 +238,8 @@ export function supportsHistory() {
  * @param target html节点
  */
 export function htmlElementAsString(target) {
-  console.log(target.tagName)
   const tagName = target.tagName.toLowerCase()
-  if (tagName === 'body') {
+  if (tagName === 'body' || tagName === 'html') {
     return null
   }
   let classNames = target.classList.value

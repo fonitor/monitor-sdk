@@ -105,8 +105,7 @@ export function domReplace() {
     if (!('document' in window)) return
     addReplaceHandler({
         callback: (data) => {
-            const htmlString = htmlElementAsString(data.data.activeElement)
-            console.log(htmlString)
+            const htmlString = htmlElementAsString(data.data.srcElement)
             if (htmlString) {
 
             }
@@ -116,10 +115,10 @@ export function domReplace() {
     on(
         window.document,
         'click',
-        function () {
+        function (e) {
             clickThrottle(webConfig.DOM, {
                 category: 'click',
-                data: this
+                data: e
             })
         },
         true
