@@ -1,8 +1,8 @@
 import { HandleEvents } from './HandleEvents'
-import { on, replaceOld, isExistProperty } from '../util/help'
+import { on, replaceOld, isExistProperty, throttle } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
-import { getLocationHref, supportsHistory } from './util'
+import { getLocationHref, supportsHistory, htmlElementAsString } from './util'
 
 /**
  * 添加方法
@@ -98,13 +98,30 @@ export function historyReplace() {
     replaceOld(window.history, 'replaceState', historyReplaceFn)
 }
 
+const clickThrottle = throttle(triggerHandlers, 600)
+
 // 页面点击
 export function domReplace() {
+    if (!('document' in window)) return
     addReplaceHandler({
         callback: (data) => {
-            console.log(data)
-            
+            const htmlString = htmlElementAsString(data.data.activeElement)
+            console.log(htmlString)
+            if (htmlString) {
+
+            }
         },
         type: webConfig.DOM
     })
+    on(
+        window.document,
+        'click',
+        function () {
+            clickThrottle(webConfig.DOM, {
+                category: 'click',
+                data: this
+            })
+        },
+        true
+    )
 }
