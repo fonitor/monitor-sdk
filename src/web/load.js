@@ -1,5 +1,5 @@
 
-import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace } from './replace'
+import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace, unhandledrejectionReplace } from './replace'
 import { HandleEvents } from './HandleEvents'
 
 
@@ -13,6 +13,8 @@ export function setupReplace(webMonitor) {
     replaceNetwork()
     // js 错误
     replaceError()
+    // Promise 错误
+    unhandledrejectionReplace()
     // pv uv
     listenHashchange()
     historyReplace()

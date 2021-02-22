@@ -87,6 +87,13 @@ const HandleEvents = {
   handleHashchange(e) {
     console.log('测试')
     console.log(e)
+  },
+  /**
+   * Promise
+   * @param {*} ev 
+   */
+  handleUnhandleRejection(ev) {
+
   }
   
 }

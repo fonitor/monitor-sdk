@@ -4,6 +4,8 @@ export const PAGE_JS_ERROR = 'error'
 export const HISTORY = 'history'
 export const HASHCHANGE = 'hashchange'
 export const DOM = 'dom'
+export const UNHANDLEDREJECTION = 'unhandledrejection'
+
 
 /**
  * 上报错误类型

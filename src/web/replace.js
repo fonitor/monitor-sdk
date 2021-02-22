@@ -124,3 +124,17 @@ export function domReplace() {
         true
     )
 }
+
+// Promise
+export function unhandledrejectionReplace() {
+    addReplaceHandler({
+        callback: (data) => {
+            HandleEvents.handleUnhandleRejection(data)
+        },
+        type: webConfig.UNHANDLEDREJECTION
+    })
+    on(window, webConfig.UNHANDLEDREJECTION, function (ev) {
+        // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
+        triggerHandlers(webConfig.UNHANDLEDREJECTION, ev)
+    })
+}
