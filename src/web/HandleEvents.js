@@ -1,7 +1,7 @@
 import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
 import { ERRORTYPES } from '../config/web'
-import { getLocationHref } from './util'
+import { getLocationHref, unknownToString } from './util'
 import * as commonConfig from '../config/index'
 
 
@@ -93,7 +93,25 @@ const HandleEvents = {
    * @param {*} ev 
    */
   handleUnhandleRejection(ev) {
-
+    if (!this.webMonitor) return
+    let vm = this.webMonitor
+    let data = {
+      type: ERRORTYPES.PROMISE_ERROR,
+      message: unknownToString(ev.reason),
+      url: getLocationHref(),
+      name: ev.type,
+    }
+    if (isError(ev.reason)) {
+      data = {
+        ...data,
+        ...extractErrorStack(ev.reason, Severity.Low)
+      }
+    }
+    let result = {
+      simpleUrl: getLocationHref(),
+      errorMessage: String(JSON.stringify(data))
+    }
+    vm.logSave(commonConfig.JS_ERROR, result)
   }
   
 }

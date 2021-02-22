@@ -248,3 +248,13 @@ export function htmlElementAsString(target) {
   const innerText = target.innerText
   return `<${tagName}${id}${classNames !== '' ? classNames : ''}>${innerText}</${tagName}>`
 }
+
+/**
+ * @param {*} target 
+ */
+export function unknownToString(target) {
+  if (variableTypeDetection.isString(target)) {
+    return target
+  }
+  return JSON.stringify(target)
+}
