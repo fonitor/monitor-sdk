@@ -123,6 +123,18 @@ export function domReplace() {
         },
         true
     )
+    // 暂时不需要keypress的重写
+    // on(
+    //   window.document,
+    //   'keypress',
+    //   function (e) {
+    //     keypressThrottle('dom', {
+    //       category: 'keypress',
+    //       data: this
+    //     })
+    //   },
+    //   true
+    // )
 }
 
 // Promise
