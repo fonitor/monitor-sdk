@@ -16,17 +16,7 @@ export function addReplaceHandler(handler) {
  * http 请求监控
  */
 export function replaceNetwork() {
-    addReplaceHandler({
-        callback: (e) => {
-            HandleEvents.handleHashchange(e)
-        },
-        type: webConfig.HASHCHANGE
-    })
-    if (!isExistProperty(window, 'onpopstate')) {
-        on(window, webConfig.HASHCHANGE, function (e) {
-            triggerHandlers(webConfig.HASHCHANGE, e)
-        })
-    }
+
 }
 
 /**
@@ -56,7 +46,17 @@ lastHref = getLocationHref()
 
 // hashchange
 export function listenHashchange() {
-
+    addReplaceHandler({
+        callback: (e) => {
+            HandleEvents.handleHashchange(e)
+        },
+        type: webConfig.HASHCHANGE
+    })
+    if (!isExistProperty(window, 'onpopstate')) {
+        on(window, webConfig.HASHCHANGE, function (e) {
+            triggerHandlers(webConfig.HASHCHANGE, e)
+        })
+    }
 }
 
 // history
