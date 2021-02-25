@@ -31,11 +31,11 @@ export function replaceNetwork() {
         'open',
         (originalOpen) => {
             return function (...args) {
-                console.log(args)
                 this.mito_xhr = {
                     method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
-                    url: args[1],
-                    type: webConfig.XHR
+                    url: args[1] || "",
+                    type: webConfig.XHR,
+                    startTime: new Date().getTime()
                 }
                 originalOpen.apply(this, args)
             }
@@ -44,14 +44,21 @@ export function replaceNetwork() {
     replaceOld(
         originalXhrProto,
         'send',
-        (originalSend) => {
+        function(originalSend) {
             return function (...args) {
+                const { method, url } = this.mito_xhr || {}
                 console.log('成功回调')
                 console.log(this)
+                
+                on(this, 'loadend', function() {
+                    console.log('测试成功回调')
+                    console.log(this)
+                })
                 originalSend.apply(this, args)
             }
         }
     )
+    
 }
 
 /**
