@@ -1,5 +1,5 @@
 import { HandleEvents } from './HandleEvents'
-import { on, replaceOld, isExistProperty, throttle } from '../util/help'
+import { on, replaceOld, isExistProperty, throttle, variableTypeDetection } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
 import { getLocationHref, supportsHistory, htmlElementAsString } from './util'
@@ -16,7 +16,42 @@ export function addReplaceHandler(handler) {
  * http 请求监控
  */
 export function replaceNetwork() {
-
+    if (!('XMLHttpRequest' in window)) {
+        return
+    }
+    addReplaceHandler({
+        callback: (data) => {
+            HandleEvents.handleHttp(data, webConfig.XHR)
+        },
+        type: webConfig.XHR
+    })
+    const originalXhrProto = XMLHttpRequest.prototype
+    replaceOld(
+        originalXhrProto,
+        'open',
+        (originalOpen) => {
+            return function (...args) {
+                console.log(args)
+                this.mito_xhr = {
+                    method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
+                    url: args[1],
+                    type: webConfig.XHR
+                }
+                originalOpen.apply(this, args)
+            }
+        }
+    )
+    replaceOld(
+        originalXhrProto,
+        'send',
+        (originalSend) => {
+            return function (...args) {
+                console.log('成功回调')
+                console.log(this)
+                originalSend.apply(this, args)
+            }
+        }
+    )
 }
 
 /**

@@ -5,6 +5,8 @@ export const HISTORY = 'history'
 export const HASHCHANGE = 'hashchange'
 export const DOM = 'dom'
 export const UNHANDLEDREJECTION = 'unhandledrejection'
+export const XHR = 'xhr'
+export const ERROR = 'error'
 
 
 /**
