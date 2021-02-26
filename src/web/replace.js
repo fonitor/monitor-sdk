@@ -47,9 +47,6 @@ export function replaceNetwork() {
         function(originalSend) {
             return function (...args) {
                 const { method, url } = this.mito_xhr || {}
-                console.log('成功回调')
-                console.log(this)
-                
                 on(this, 'loadend', function() {
                     console.log('测试成功回调')
                     console.log(this)
