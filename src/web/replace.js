@@ -14,11 +14,13 @@ export function addReplaceHandler(handler) {
 
 /**
  * http 请求监控
+ * @param {*} webMonitor 
  */
-export function replaceNetwork() {
+export function replaceNetwork(webMonitor) {
     if (!('XMLHttpRequest' in window)) {
         return
     }
+    const vm = webMonitor
     addReplaceHandler({
         callback: (data) => {
             HandleEvents.handleHttp(data, webConfig.XHR)
@@ -44,18 +46,31 @@ export function replaceNetwork() {
     replaceOld(
         originalXhrProto,
         'send',
-        function(originalSend) {
+        function (originalSend) {
             return function (...args) {
-                const { method, url } = this.mito_xhr || {}
-                on(this, 'loadend', function() {
-                    console.log('测试成功回调')
-                    console.log(this)
+
+                on(this, 'loadend', function () {
+                    try {
+                        const { method, url } = this.mito_xhr || {}
+                        const { responseType, response, status } = this
+                        this.mito_xhr.reqData = args[0]
+                        const eTime = new Date().getTime()
+                        this.mito_xhr.time = eTime
+                        this.mito_xhr.status = status
+                        if (['', 'json', 'text'].indexOf(responseType) !== -1) {
+                            this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
+                        }
+                        this.mito_xhr.elapsedTime = eTime - this.mito_xhr.startTime
+                        if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
+                            triggerHandlers(webConfig.XHR, this.mito_xhr)
+                        }
+                    } catch (e) { }
                 })
                 originalSend.apply(this, args)
             }
         }
     )
-    
+
 }
 
 /**
