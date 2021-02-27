@@ -12,7 +12,15 @@ const HandleEvents = {
    * @param {*} type 
    */
   handleHttp(data, type) {
+    if (!this.webMonitor) return
+    let vm = this.webMonitor
+    let param = ''
+    if (!!data && data.status != 200) {
 
+    }
+    if (!!param) {
+      vm.logSave(commonConfig.HTTP_LOG, data)
+    }
   },
 
   /**
