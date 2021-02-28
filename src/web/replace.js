@@ -23,7 +23,7 @@ export function replaceNetwork(webMonitor) {
     const vm = webMonitor
     addReplaceHandler({
         callback: (data) => {
-            HandleEvents.handleHttp(data, webConfig.XHR)
+            HandleEvents.handleHttp(data)
         },
         type: webConfig.XHR
     })

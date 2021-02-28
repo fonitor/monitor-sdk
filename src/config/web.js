@@ -7,6 +7,8 @@ export const DOM = 'dom'
 export const UNHANDLEDREJECTION = 'unhandledrejection'
 export const XHR = 'xhr'
 export const ERROR = 'error'
+export const HTTP_SUCCESS = 1
+export const HTTP_ERROR = 2
 
 
 /**

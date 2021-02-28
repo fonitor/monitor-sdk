@@ -1,6 +1,6 @@
 import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
-import { ERRORTYPES } from '../config/web'
+import { ERRORTYPES, HTTP_SUCCESS, HTTP_ERROR } from '../config/web'
 import { getLocationHref, unknownToString } from './util'
 import * as commonConfig from '../config/index'
 
@@ -9,13 +9,24 @@ const HandleEvents = {
   /**
    * 处理xhr、fetch回调
    * @param {*} data 
-   * @param {*} type 
    */
-  handleHttp(data, type) {
+  handleHttp(data) {
     if (!this.webMonitor) return
     let vm = this.webMonitor
     let param = ''
     if (!!data && data.status != 200) {
+      param = {
+        simpleUrl: getLocationHref(),
+        httpUrl: data.url || "",
+        httpUploadType: HTTP_ERROR,
+        responseText: JSON.stringify(data.responseText || ""),
+        httpStatus: data.status
+      }
+      if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
+        vm.logSave(commonConfig.HTTP_LOG, param)
+      }
+    }
+    if (!!data && data.status == 200) {
 
     }
     if (!!param) {
@@ -121,7 +132,7 @@ const HandleEvents = {
     }
     vm.logSave(commonConfig.JS_ERROR, result)
   }
-  
+
 }
 
 export { HandleEvents }
