@@ -11,6 +11,7 @@ const HandleEvents = {
    * @param {*} data 
    */
   handleHttp(data) {
+    console.log(data)
     if (!this.webMonitor) return
     let vm = this.webMonitor
     let param = ''
@@ -20,16 +21,23 @@ const HandleEvents = {
         httpUrl: data.url || "",
         httpUploadType: HTTP_ERROR,
         responseText: JSON.stringify(data.responseText || ""),
-        httpStatus: data.status
+        httpStatus: data.status || 0
       }
-      if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
+      if (!!param && !!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
         vm.logSave(commonConfig.HTTP_LOG, param)
       }
     }
     if (!!data && data.status == 200) {
-
+      param = {
+        simpleUrl: getLocationHref(),
+        loadTime: data.elapsedTime || 0,
+        httpUrl: options$1.url || "",
+        httpUploadType: HTTP_SUCCESS,
+        responseText: JSON.stringify(data.responseText || ""),
+        httpStatus: data.status || 200
+      }
     }
-    if (!!param) {
+    if (!!param && !!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
       vm.logSave(commonConfig.HTTP_LOG, data)
     }
   },
