@@ -1,7 +1,7 @@
 import { isError } from '../util/help'
 import { extractErrorStack, resourceTransform } from './util'
 import { ERRORTYPES, HTTP_SUCCESS, HTTP_ERROR } from '../config/web'
-import { getLocationHref, unknownToString } from './util'
+import { getLocationHref, unknownToString, parseUrlToObj } from './util'
 import * as commonConfig from '../config/index'
 
 
@@ -98,21 +98,39 @@ const HandleEvents = {
       stack: [element]
     }
   },
-
   /**
    * history 模式下路由注册
    * @param {*} data 
    */
   handleHistory(data) {
-    console.log(data)
+    this.savePv(data)
   },
   /**
    * hash
-   * @param {*} e 
+   * @param {*} data
    */
-  handleHashchange(e) {
-    console.log('测试')
-    console.log(e)
+  handleHashchange(data) {
+    this.savePv(data)
+  },
+  /**
+   * 上报pv
+   * @param {*} data 
+   */
+  savePv(data) {
+    try {
+      if (!this.webMonitor) return
+      let vm = this.webMonitor
+      let { from, to } = data
+      let { relative: parsedFrom } = parseUrlToObj(from)
+      let { relative: parsedTo } = parseUrlToObj(to)
+      let param = {
+        simpleUrl: parsedFrom ? parsedFrom : '/',
+        referrer: parsedTo ? parsedTo : '/'
+      }
+      vm.logSave(commonConfig.PAGE, param)
+    } catch (e) {
+
+    }
   },
   /**
    * Promise
