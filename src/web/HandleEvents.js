@@ -11,7 +11,6 @@ const HandleEvents = {
    * @param {*} data 
    */
   handleHttp(data) {
-    console.log(data)
     if (!this.webMonitor) return
     let vm = this.webMonitor
     let param = ''
@@ -38,7 +37,7 @@ const HandleEvents = {
       }
     }
     if (!!param && !!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-      vm.logSave(commonConfig.HTTP_LOG, data)
+      vm.logSave(commonConfig.HTTP_LOG, param)
     }
   },
 
