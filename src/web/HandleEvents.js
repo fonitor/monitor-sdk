@@ -14,6 +14,7 @@ const HandleEvents = {
     if (!this.webMonitor) return
     let vm = this.webMonitor
     let param = ''
+    let url = data.url || ""
     if (!!data && data.status != 200) {
       param = {
         simpleUrl: getLocationHref(),
@@ -30,7 +31,7 @@ const HandleEvents = {
       param = {
         simpleUrl: getLocationHref(),
         loadTime: data.elapsedTime || 0,
-        httpUrl: options$1.url || "",
+        httpUrl: data.url || "",
         httpUploadType: HTTP_SUCCESS,
         responseText: JSON.stringify(data.responseText || ""),
         httpStatus: data.status || 200
