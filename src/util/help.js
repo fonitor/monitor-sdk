@@ -138,13 +138,6 @@ export function isInstanceOf(wat, base) {
     }
 }
 
-/**
- * 获取当前的时间戳
- * ../returns 返回当前时间戳
- */
-export function getTimestamp() {
-    return Date.now()
-}
 
 /**
  * 获取时间
