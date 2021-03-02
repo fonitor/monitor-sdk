@@ -10,9 +10,9 @@ import { HandleEvents } from './HandleEvents'
 export function setupReplace(webMonitor) {
     HandleEvents.webMonitor = webMonitor
     // 处理http
-    replaceNetwork(webMonitor)
+    replaceNetwork()
     // 处理fetch 请求
-    replaceFetch(webMonitor)
+    replaceFetch()
     // js 错误
     replaceError()
     // Promise 错误

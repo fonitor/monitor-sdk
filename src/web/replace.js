@@ -1,5 +1,5 @@
 import { HandleEvents } from './HandleEvents'
-import { on, replaceOld, isExistProperty, throttle, variableTypeDetection } from '../util/help'
+import { on, replaceOld, isExistProperty, throttle, variableTypeDetection, getTimestamp } from '../util/help'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import * as webConfig from '../config/web'
 import { getLocationHref, supportsHistory, htmlElementAsString } from './util'
@@ -14,13 +14,11 @@ export function addReplaceHandler(handler) {
 
 /**
  * http 请求监控
- * @param {*} webMonitor 
  */
-export function replaceNetwork(webMonitor) {
+export function replaceNetwork() {
     if (!('XMLHttpRequest' in window)) {
         return
     }
-    const vm = webMonitor
     addReplaceHandler({
         callback: (data) => {
             HandleEvents.handleHttp(data)
@@ -37,7 +35,7 @@ export function replaceNetwork(webMonitor) {
                     method: variableTypeDetection.isString(args[0]) ? args[0].toUpperCase() : args[0],
                     url: args[1] || "",
                     type: webConfig.XHR,
-                    startTime: new Date().getTime()
+                    startTime: getTimestamp()
                 }
                 originalOpen.apply(this, args)
             }
@@ -51,19 +49,16 @@ export function replaceNetwork(webMonitor) {
 
                 on(this, 'loadend', function () {
                     try {
-                        const { method, url } = this.mito_xhr || {}
                         const { responseType, response, status } = this
                         this.mito_xhr.reqData = args[0]
-                        const eTime = new Date().getTime()
+                        const eTime = getTimestamp()
                         this.mito_xhr.time = eTime
                         this.mito_xhr.status = status
                         if (['', 'json', 'text'].indexOf(responseType) !== -1) {
                             this.mito_xhr.responseText = typeof response === 'object' ? JSON.stringify(response) : response
                         }
                         this.mito_xhr.elapsedTime = eTime - this.mito_xhr.startTime
-                        if (!!url && url != `${vm.queue.baseUrl}${vm.queue.api}`) {
-                            triggerHandlers(webConfig.XHR, this.mito_xhr)
-                        }
+                        triggerHandlers(webConfig.XHR, this.mito_xhr)
                     } catch (e) { }
                 })
                 originalSend.apply(this, args)
@@ -75,10 +70,62 @@ export function replaceNetwork(webMonitor) {
 
 /**
  * 处理fetch请求
- * @param {*} webMonitor 
  */
-export function replaceFetch(webMonitor) {
-
+export function replaceFetch() {
+    if (!('fetch' in window)) {
+        return
+    }
+    replaceOld(window, webConfig.FETCH, (originalFetch) => {
+        return function (url, config) {
+            const sTime = getTimestamp()
+            const method = (config && config.method) || 'GET'
+            let handlerData = {
+                type: webConfig.FETCH,
+                method,
+                reqData: config && config.body,
+                url
+            }
+            const headers = new Headers(config.headers || {})
+            Object.assign(headers, {
+                setRequestHeader: headers.set
+            })
+            config = {
+                ...config,
+                headers
+            }
+            return originalFetch.apply(window, [url, config]).then(res => {
+                const tempRes = res.clone()
+                const eTime = getTimestamp()
+                handlerData = {
+                    ...handlerData,
+                    elapsedTime: eTime - sTime,
+                    status: tempRes.status,
+                    // statusText: tempRes.statusText,
+                    time: eTime
+                }
+                tempRes.text().then((data) => {
+                    if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
+                    if (isFilterHttpUrl(url)) return
+                    handlerData.responseText = tempRes.status > 401 && data
+                    triggerHandlers(webConfig.FETCH, handlerData)
+                })
+                return res
+            }, err => {
+                const eTime = getTimestamp()
+                if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
+                if (isFilterHttpUrl(url)) return
+                handlerData = {
+                    ...handlerData,
+                    elapsedTime: eTime - sTime,
+                    status: 0,
+                    // statusText: err.name + err.message,
+                    time: eTime
+                }
+                triggerHandlers(webConfig.FETCH, handlerData)
+                throw err
+            })
+        }
+    })
 }
 
 /**
