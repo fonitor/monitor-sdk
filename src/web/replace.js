@@ -74,6 +74,14 @@ export function replaceNetwork(webMonitor) {
 }
 
 /**
+ * 处理fetch请求
+ * @param {*} webMonitor 
+ */
+export function replaceFetch(webMonitor) {
+
+}
+
+/**
  * 错误监控
  */
 export function replaceError() {

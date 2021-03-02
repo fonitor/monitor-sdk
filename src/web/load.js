@@ -1,5 +1,5 @@
 
-import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace, unhandledrejectionReplace } from './replace'
+import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace, unhandledrejectionReplace, replaceFetch } from './replace'
 import { HandleEvents } from './HandleEvents'
 
 
@@ -11,6 +11,8 @@ export function setupReplace(webMonitor) {
     HandleEvents.webMonitor = webMonitor
     // 处理http
     replaceNetwork(webMonitor)
+    // 处理fetch 请求
+    replaceFetch(webMonitor)
     // js 错误
     replaceError()
     // Promise 错误
