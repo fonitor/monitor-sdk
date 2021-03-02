@@ -1,7 +1,7 @@
 import * as config from '../config/wx'
 import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
-import { replaceOld, throttle } from '../util/help'
+import { replaceOld, throttle, getTimestamp } from '../util/help'
 import { HandleWxAppEvents, HandleWxPageEvents } from './handleWxEvents'
 import { ELinstenerTypes } from '../config/wx'
 import { getNavigateBackTargetUrl, getPage } from './util'
@@ -176,7 +176,7 @@ export function replaceNetwork(wxMonitor) {
             configurable: true,
             value: function () {
                 let args = [];
-                let startTime = new Date().getTime()
+                let startTime = getTimestamp()
                 for (let _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
@@ -202,7 +202,7 @@ export function replaceNetwork(wxMonitor) {
                                 vm.logSave(commonConfig.HTTP_LOG, data)
                             }
                         } else {
-                            let endTime = new Date().getTime()
+                            let endTime = getTimestamp()
                             let consumeData = {
                                 simpleUrl: getPage(),
                                 loadTime: endTime - startTime,

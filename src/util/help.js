@@ -145,3 +145,10 @@ export function isInstanceOf(wat, base) {
 export function getTimestamp() {
     return Date.now()
 }
+
+/**
+ * 获取时间
+ */
+export function getTimestamp() {
+    return new Date().getTime()
+}

@@ -2,7 +2,7 @@ import * as config from '../config/ali'
 import util from '../util/index'
 import { subscribeEvent, triggerHandlers } from '../conmmon/subscribe'
 import { ELinstenerTypes } from '../config/ali'
-import { replaceOld, throttle } from '../util/help'
+import { replaceOld, throttle, getTimestamp } from '../util/help'
 import { HandleAliAppEvents, HandleAliPageEvents } from './HandleAliEvents'
 import { getPage } from './util'
 import * as commonConfig from '../config/index'
@@ -142,7 +142,7 @@ export function replaceNetwork(aliMonitor) {
             configurable: true,
             value: function () {
                 let args = [];
-                let startTime = new Date().getTime()
+                let startTime = getTimestamp()
                 for (let _i = 0; _i < arguments.length; _i++) {
                     args[_i] = arguments[_i];
                 }
@@ -168,7 +168,7 @@ export function replaceNetwork(aliMonitor) {
                                 vm.logSave(commonConfig.HTTP_LOG, data)
                             }
                         } else {
-                            let endTime = new Date().getTime()
+                            let endTime = getTimestamp()
                             let consumeData = {
                                 simpleUrl: getPage(),
                                 loadTime: endTime - startTime,
