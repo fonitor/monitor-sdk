@@ -75,55 +75,69 @@ export function replaceFetch() {
     if (!('fetch' in window)) {
         return
     }
+    addReplaceHandler({
+        callback: (data) => {
+            HandleEvents.handleHttp(data)
+        },
+        type: webConfig.FETCH
+    })
     replaceOld(window, webConfig.FETCH, (originalFetch) => {
         return function (url, config) {
-            const sTime = getTimestamp()
-            const method = (config && config.method) || 'GET'
-            let handlerData = {
-                type: webConfig.FETCH,
-                method,
-                reqData: config && config.body,
-                url
-            }
-            const headers = new Headers(config.headers || {})
-            Object.assign(headers, {
-                setRequestHeader: headers.set
-            })
-            config = {
-                ...config,
-                headers
-            }
-            return originalFetch.apply(window, [url, config]).then(res => {
-                const tempRes = res.clone()
-                const eTime = getTimestamp()
-                handlerData = {
-                    ...handlerData,
-                    elapsedTime: eTime - sTime,
-                    status: tempRes.status,
-                    // statusText: tempRes.statusText,
-                    time: eTime
+            try {
+                const sTime = getTimestamp()
+                const method = (config && config.method) || 'GET'
+                let handlerData = {
+                    type: webConfig.FETCH,
+                    method,
+                    reqData: config && config.body,
+                    url
                 }
-                tempRes.text().then((data) => {
-                    if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
-                    if (isFilterHttpUrl(url)) return
-                    handlerData.responseText = tempRes.status > 401 && data
-                    triggerHandlers(webConfig.FETCH, handlerData)
+                const headers = new Headers(config && config.headers || {})
+                Object.assign(headers, {
+                    setRequestHeader: headers.set
                 })
-                return res
-            }, err => {
-                const eTime = getTimestamp()
-                if (method === EMethods.Post && transportData.isSdkTransportUrl(url)) return
-                if (isFilterHttpUrl(url)) return
-                handlerData = {
-                    ...handlerData,
-                    elapsedTime: eTime - sTime,
-                    status: 0,
-                    // statusText: err.name + err.message,
-                    time: eTime
+                config = {
+                    ...config,
+                    headers
                 }
-                triggerHandlers(webConfig.FETCH, handlerData)
-                throw err
-            })
+                return originalFetch.apply(window, [url, config]).then(res => {
+                    const tempRes = res.clone()
+                    const eTime = getTimestamp()
+                    handlerData = {
+                        ...handlerData,
+                        elapsedTime: eTime - sTime,
+                        status: tempRes.status,
+                        // statusText: tempRes.statusText,
+                        time: eTime
+                    }
+                    tempRes.text().then((data) => {
+                        try {
+                            handlerData.responseText = (typeof data === 'string') ? JSON.parse(data) : ""
+                        } catch (e) {
+                            handlerData.responseText = ""
+                        }
+                        triggerHandlers(webConfig.FETCH, handlerData)
+                    })
+                    return res
+                }, err => {
+                    const eTime = getTimestamp()
+                    handlerData = {
+                        ...handlerData,
+                        elapsedTime: eTime - sTime,
+                        status: 0,
+                        // statusText: err.name + err.message,
+                        time: eTime
+                    }
+                    triggerHandlers(webConfig.FETCH, handlerData)
+                    throw err
+                })
+            } catch(e) {
+                return originalFetch.apply(window, [url, config]).then(res => {
+                    return res
+                }, err => {
+                    throw err
+                })
+            }
         }
     })
 }

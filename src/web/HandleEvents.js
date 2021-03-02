@@ -137,9 +137,12 @@ const HandleEvents = {
    * @param {*} ev 
    */
   handleUnhandleRejection(ev) {
+    console.log('测试')
+    console.log(ev)
     if (!this.webMonitor) return
+    let data
     let vm = this.webMonitor
-    let data = {
+    data = {
       type: ERRORTYPES.PROMISE_ERROR,
       message: unknownToString(ev.reason),
       url: getLocationHref(),
@@ -148,7 +151,7 @@ const HandleEvents = {
     if (isError(ev.reason)) {
       data = {
         ...data,
-        ...extractErrorStack(ev.reason, Severity.Low)
+        ...extractErrorStack(ev.reason)
       }
     }
     let result = {
