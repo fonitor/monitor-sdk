@@ -131,7 +131,7 @@ export function replaceFetch() {
                     triggerHandlers(webConfig.FETCH, handlerData)
                     throw err
                 })
-            } catch(e) {
+            } catch (e) {
                 return originalFetch.apply(window, [url, config]).then(res => {
                     return res
                 }, err => {
@@ -272,4 +272,47 @@ export function unhandledrejectionReplace() {
         // ev.preventDefault() 阻止默认行为后，控制台就不会再报红色错误
         triggerHandlers(webConfig.UNHANDLEDREJECTION, ev)
     })
+}
+
+/**
+ * https://blog.csdn.net/lovenjoe/article/details/80260658
+ * DNS查询耗时 ：domainLookupEnd - domainLookupStart
+ * TCP链接耗时 ：connectEnd - connectStart
+ * request请求耗时 ：responseEnd - responseStart
+ * 解析dom树耗时 ： domComplete- domInteractive
+ * 白屏时间 ：responseStart - navigationStart
+ * domready时间 ：domContentLoadedEventEnd - navigationStart
+ * onload时间 ：loadEventEnd - navigationStart
+ * 相关资料
+ * https://segmentfault.com/a/1190000004010453
+ * https://github.com/fredshare/blog/issues/5
+ * https://javascript.ruanyifeng.com/bom/performance.html#toc5
+ */
+export function performanceReplace() {
+    addReplaceHandler({
+        callback: (data) => {
+            HandleEvents.handleUnhandleRejection(data)
+        },
+        type: webConfig.PERFORMANCE
+    })
+    window.onload = () => {
+        let performance = window.performance
+        if (!performance) {
+            // 当前浏览器不支持
+            console.log('你的浏览器不支持 performance 接口');
+            return;
+        }
+        let times = performance.timing.toJSON()
+        // 发送页面性能指标数据, 上报内容 => 
+        let perf = this._objectSpread({}, times, {
+            url: "".concat(window.location.host).concat(window.location.pathname)
+        })
+        // 页面耗时
+        // console.log(perf)
+        // 资源耗时
+        // console.log(performance.getEntries())
+        // 浏览器内存情况 usedJSHeapSize表示所有被使用的js堆栈内存；totalJSHeapSize表示当前js堆栈内存总大小，这表示usedJSHeapSize不能大于totalJSHeapSize，如果大于，有可能出现了内存泄漏。
+        // console.log(performance.memory)
+    }
+
 }

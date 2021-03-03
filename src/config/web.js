@@ -10,6 +10,7 @@ export const FETCH = 'fetch'
 export const ERROR = 'error'
 export const HTTP_SUCCESS = 1
 export const HTTP_ERROR = 2
+export const PERFORMANCE = 'performance'
 
 
 /**

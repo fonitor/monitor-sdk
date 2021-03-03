@@ -1,5 +1,5 @@
 
-import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace, unhandledrejectionReplace, replaceFetch } from './replace'
+import { replaceNetwork, replaceError, listenHashchange, historyReplace, domReplace, unhandledrejectionReplace, replaceFetch, performanceReplace } from './replace'
 import { HandleEvents } from './HandleEvents'
 
 
@@ -22,4 +22,6 @@ export function setupReplace(webMonitor) {
     historyReplace()
     // 页面点击
     domReplace()
+    // performance 性能
+    performanceReplace()
 }
