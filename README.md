@@ -49,6 +49,24 @@ aliMonitor.init({
 aliMonitor.setUserId(userId)
 ~~~
 
+#### 接入web版本
+
+~~~
+import { webMonitor } from './mpExtend.js'
+webMonitor.init({
+  app: 'zuc',
+  baseUrl: 'http://localhost:9001'
+})
+~~~
+
+#### 设置userId
+
+方便统计错误数以及后续pv uv等
+
+~~~
+aliMonitor.setUserId(userId)
+~~~
+
 ### 服务端
 
 - [server](https://github.com/fonitor/web-servers-monitor)
