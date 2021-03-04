@@ -302,11 +302,11 @@ export function performanceReplace() {
             console.log('你的浏览器不支持 performance 接口');
             return;
         }
-        let times = performance.timing.toJSON()
+        // let times = performance.timing.toJSON()
         // 发送页面性能指标数据, 上报内容 => 
-        let perf = this._objectSpread({}, times, {
-            url: "".concat(window.location.host).concat(window.location.pathname)
-        })
+        // let perf = this._objectSpread({}, times, {
+        //     url: "".concat(window.location.host).concat(window.location.pathname)
+        // })
         // 页面耗时
         // console.log(perf)
         // 资源耗时

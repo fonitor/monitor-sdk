@@ -1,3 +1,5 @@
+import { errorBoundaryReport } from '../react/index'
+
 
 export function initFun(monitor) {
     /**
@@ -7,4 +9,9 @@ export function initFun(monitor) {
     monitor.setUserId = function (userId) {
         this.userId = userId
     }
+
+    /**
+     * react 错误上报
+     */
+    monitor.errorBoundaryReport = errorBoundaryReport
 }
