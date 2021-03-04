@@ -67,6 +67,43 @@ webMonitor.init({
 aliMonitor.setUserId(userId)
 ~~~
 
+#### react
+
+如果是react 框架，要铺抓框架的错误，则需要载入错误
+
+~~~
+import { webMonitor } from './mpExtend.js'
+webMonitor.init({
+  app: 'zuc',
+  baseUrl: 'http://localhost:9001'
+})
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // 更新 state 使下一次渲染能够显示降级后的 UI
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // 将错误日志上报给服务器
+    webMonitor.errorBoundaryReport(error)
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // 你可以自定义降级后的 UI 并渲染
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children;
+  }
+}
+~~~
+
 ### 服务端
 
 - [server](https://github.com/fonitor/web-servers-monitor)
