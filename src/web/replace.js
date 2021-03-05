@@ -151,13 +151,13 @@ export function replaceError() {
         callback: (error) => {
             HandleEvents.handleError(error)
         },
-        type: webConfig.PAGE_JS_ERROR
+        type: webConfig.ERROR
     })
     on(
         window,
-        webConfig.PAGE_JS_ERROR,
+        webConfig.ERROR,
         function (e) {
-            triggerHandlers(webConfig.PAGE_JS_ERROR, e)
+            triggerHandlers(webConfig.ERROR, e)
         },
         true
     )

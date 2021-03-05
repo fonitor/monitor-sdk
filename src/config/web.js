@@ -1,6 +1,5 @@
 export const WEB_TYPE = 1
 export const WEB_PROJECT_VERSION = '1.0.0'
-export const PAGE_JS_ERROR = 'error'
 export const HISTORY = 'history'
 export const HASHCHANGE = 'hashchange'
 export const DOM = 'dom'
@@ -11,7 +10,8 @@ export const ERROR = 'error'
 export const HTTP_SUCCESS = 1
 export const HTTP_ERROR = 2
 export const PERFORMANCE = 'performance'
-export const REACT_ERROR = 'error'
+export const REACT_ERROR = 'reactError'
+export const VUE_ERROR = 'vueError'
 
 
 /**
