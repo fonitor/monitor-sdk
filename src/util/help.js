@@ -145,3 +145,10 @@ export function isInstanceOf(wat, base) {
 export function getTimestamp() {
     return new Date().getTime()
 }
+
+/**
+ * @param {*} version 
+ */
+export function getBigVersion(version) {
+    return Number(version.split('.')[0])
+}
