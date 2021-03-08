@@ -104,6 +104,43 @@ class ErrorBoundary extends React.Component {
 }
 ~~~
 
+#### vue 接入
+
+~~~
+import { webMonitor } from './mpExtend.js'
+webMonitor.init({
+  app: 'zuc',
+  baseUrl: 'http://localhost:9001'
+})
+~~~
+
+#### Vue2 形式
+
+~~~
+import { webMonitor } from './mpExtend.js'
+import Vue from 'vue'
+Vue.use(webMonitor.MitoVue)
+webMonitor.init({
+  app: 'zuc',
+  baseUrl: 'http://localhost:9001'
+})
+~~~
+
+#### Vue3 形式
+
+~~~
+import App from './App.vue';
+import {createApp} from 'vue';
+import { webMonitor } from './mpExtend.js'
+const app = createApp(App);
+app.use(webMonitor.MitoVue)
+webMonitor.init({
+  app: 'zuc',
+  baseUrl: 'http://localhost:9001'
+})
+app.mount('#app');
+~~~
+
 ### 服务端
 
 - [server](https://github.com/fonitor/web-servers-monitor)
