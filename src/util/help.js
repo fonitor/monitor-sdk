@@ -152,3 +152,26 @@ export function getTimestamp() {
 export function getBigVersion(version) {
     return Number(version.split('.')[0])
 }
+
+// 函数防抖
+/**
+ *
+ * ../param fn 需要防抖的函数
+ * ../param delay 防抖的时间间隔
+ * ../param isImmediate 是否需要立即执行，默认为false，第一次是不执行的
+ * ../returns 返回一个包含防抖功能的函数
+ */
+export const debounce = (fn, delay, isImmediate = false) => {
+    let timer = null
+    return function (...args) {
+        if (isImmediate) {
+            fn.apply(this, args)
+            isImmediate = false
+            return
+        }
+        clearTimeout(timer)
+        timer = setTimeout(() => {
+            fn.apply(this, args)
+        }, delay)
+    }
+}
