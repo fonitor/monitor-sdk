@@ -1,6 +1,15 @@
 import util from '../util/index'
 import * as config from '../config/index'
 
+/**
+ * 自定义上传log
+ * @param {*} data 
+ */
+export function log(data) {
+    let vm = this
+    vm.queue.pushToQueue(data)
+}
+
 
 export function initSaveLog(monitor) {
     /**

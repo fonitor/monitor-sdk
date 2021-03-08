@@ -1,5 +1,6 @@
 import { errorBoundaryReport } from '../react/index'
 import { MitoVue } from '../vue/index'
+import { log } from './initLog'
 
 
 export function initFun(monitor) {
@@ -17,4 +18,6 @@ export function initFun(monitor) {
     monitor.errorBoundaryReport = errorBoundaryReport
 
     monitor.MitoVue = MitoVue
+
+    monitor.log = log
 }
