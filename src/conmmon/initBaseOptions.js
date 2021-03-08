@@ -54,7 +54,7 @@ export function initBaseOptions(monitor) {
                 vm.baseOptions = {
                     app: option.app || "",
                     type: WEB_TYPE, // 代表web
-                    projectVersion: option.projectVersion || ALI_PROJECT_VERSION, // 项目版本号
+                    projectVersion: option.projectVersion || WEB_PROJECT_VERSION, // 项目版本号
                     customerKey: util.generateUUID(), // 会话id
                     os: configObj.os === 'ios' ? 'IOS' : 'Android', // 系统信息
                     deviceName: configObj.deviceName || "", // 手机型号
