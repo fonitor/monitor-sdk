@@ -7,6 +7,10 @@ import * as config from '../config/index'
  */
 export function log(data) {
     let vm = this
+    let useData = Object.assign(data, vm.baseOptions)
+    useData.userId = vm.userId || "" // 用户标识
+    useData.uploadType = config.CUSTOM_LOG
+    useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
     vm.queue.pushToQueue(data)
 }
 
