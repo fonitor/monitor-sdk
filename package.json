@@ -18,7 +18,9 @@
     "url": "https://github.com/fonitor/wx-sdk/issues"
   },
   "homepage": "https://github.com/fonitor/wx-sdk#readme",
-  "dependencies": {},
+  "dependencies": {
+    "rollup-plugin-terser": "^7.0.2"
+  },
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/polyfill": "^7.12.1",
