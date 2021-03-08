@@ -17,7 +17,13 @@ export function initFun(monitor) {
      */
     monitor.errorBoundaryReport = errorBoundaryReport
 
+    /**
+     * vue 错误
+     */
     monitor.MitoVue = MitoVue
 
+    /**
+     * 自定义上传log
+     */
     monitor.log = log
 }
