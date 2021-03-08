@@ -35,29 +35,29 @@ export function initSaveLog(monitor) {
         switch (type) {
             case config.PAGE:
                 useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
+                useData.userId = vm.userId || "" // 用户标识
+                useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
             case config.JS_ERROR:
                 useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
+                useData.userId = vm.userId || "" // 用户标识
+                useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
             case config.HTTP_LOG:
                 useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
+                useData.userId = vm.userId || "" // 用户标识
+                useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
             case config.RESOURCE_LOAD:
                 useData = Object.assign(logData, vm.baseOptions)
-                useData.userId = vm.userId || "", // 用户标识
-                    useData.uploadType = type
+                useData.userId = vm.userId || "" // 用户标识
+                useData.uploadType = type
                 useData.mobileTime = util.dateFormat(new Date(), 'yyyy-MM-dd hh:mm:ss')
                 vm.queue.pushToQueue(useData)
                 break
