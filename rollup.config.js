@@ -1,6 +1,6 @@
 import serve from 'rollup-plugin-serve'
 import babel from 'rollup-plugin-babel'
-import { uglify } from 'rollup-plugin-uglify';
+import { terser } from 'rollup-plugin-terser'
 
 // rollup可以帮我们打包 es6的模块化语法
 export default {
@@ -18,5 +18,6 @@ export default {
         babel({
             exclude: 'node_modules/**'
         }),
+        terser()
     ],
 }
