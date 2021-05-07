@@ -145,3 +145,55 @@ app.mount('#app');
 
 - [server](https://github.com/fonitor/web-servers-monitor)
 - [web](https://github.com/fonitor/web-monitor-admin)
+
+
+### web 性能
+
+~~~
+const timingInfo = window.performance.timing;
+
+// DNS解析，DNS查询耗时
+timingInfo.domainLookupEnd - timingInfo.domainLookupStart;
+
+// TCP连接耗时
+timingInfo.connectEnd - timingInfo.connectStart;
+
+// 获得首字节耗费时间，也叫TTFB
+timingInfo.responseStart - timingInfo.navigationStart;
+
+// *: domReady时间(与DomContentLoad事件对应)
+timingInfo.domContentLoadedEventStart - timingInfo.navigationStart;
+
+// DOM资源下载
+timingInfo.responseEnd - timingInfo.responseStart;
+
+// 准备新页面时间耗时
+timingInfo.fetchStart - timingInfo.navigationStart;
+
+// 重定向耗时
+timingInfo.redirectEnd - timingInfo.redirectStart;
+
+// Appcache 耗时
+timingInfo.domainLookupStart - timingInfo.fetchStart;
+
+// unload 前文档耗时
+timingInfo.unloadEventEnd - timingInfo.unloadEventStart;
+
+// request请求耗时
+timingInfo.responseEnd - timingInfo.requestStart;
+
+// 请求完毕至DOM加载
+timingInfo.domInteractive - timingInfo.responseEnd;
+
+// 解释dom树耗时
+timingInfo.domComplete - timingInfo.domInteractive;
+
+// *：从开始至load总耗时
+timingInfo.loadEventEnd - timingInfo.navigationStart;
+
+// *: 白屏时间
+timingInfo.responseStart - timingInfo.fetchStart;
+
+// *: 首屏时间
+timingInfo.domComplete - timingInfo.fetchStart;
+~~~
