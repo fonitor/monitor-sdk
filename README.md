@@ -14,7 +14,7 @@
 ~~~
 import { wxMonitor } from './mpExtend.js'
 wxMonitor.init({
-  app: 'wuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 ~~~
@@ -36,7 +36,7 @@ wxMonitor.setUserId(userId)
 ~~~
 import { aliMonitor } from './mpExtend.js'
 aliMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 ~~~
@@ -54,7 +54,7 @@ aliMonitor.setUserId(userId)
 ~~~
 import { webMonitor } from './mpExtend.js'
 webMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 ~~~
@@ -74,7 +74,7 @@ aliMonitor.setUserId(userId)
 ~~~
 import { webMonitor } from './mpExtend.js'
 webMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 class ErrorBoundary extends React.Component {
@@ -109,7 +109,7 @@ class ErrorBoundary extends React.Component {
 ~~~
 import { webMonitor } from './mpExtend.js'
 webMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 ~~~
@@ -121,7 +121,7 @@ import { webMonitor } from './mpExtend.js'
 import Vue from 'vue'
 Vue.use(webMonitor.MitoVue)
 webMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 ~~~
@@ -135,7 +135,7 @@ import { webMonitor } from './mpExtend.js'
 const app = createApp(App);
 app.use(webMonitor.MitoVue)
 webMonitor.init({
-  app: 'zuc',
+  app: '微信',
   baseUrl: 'http://localhost:9001'
 })
 app.mount('#app');
