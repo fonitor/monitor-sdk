@@ -108,7 +108,7 @@ export function replacePage(wxMonitor) {
                     return function (...args) {
                         const e = args[0]
                         if (e && e.type && e.currentTarget && !e.mitoProcessed) {
-                            if (linstenerTypes.indexOf(e.type)) {
+                            if (linstenerTypes.indexOf(e.type) > -1) {
                                 throttleGesturetrigger(e)
                             }
                         }
